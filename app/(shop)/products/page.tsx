@@ -1,8 +1,6 @@
-import { Suspense } from "react";
 import Link from "next/link";
 import { ProductCard } from "@/components/product-card";
 import { SortDropdown } from "@/components/sort-dropdown";
-import { ProductsGridSkeleton } from "@/app/(shop)/products/loading";
 import {listProducts} from "@/lib/api/products";
 
 
