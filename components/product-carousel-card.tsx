@@ -26,7 +26,7 @@ export function ProductCarouselCard({
     >
       <div className="h-full flex flex-col bg-white rounded-lg border border-slate-200 overflow-hidden hover:border-indigo-400 hover:shadow-md transition-all duration-200 group/card">
         {/* Image */}
-        <div className="relative w-full aspect-square bg-slate-100 overflow-hidden flex-shrink-0">
+        <div className="relative w-full aspect-square bg-slate-100 overflow-hidden shrink-0">
           {imageUrl ? (
             <Image
               src={imageUrl}
@@ -42,9 +42,9 @@ export function ProductCarouselCard({
         </div>
 
         {/* Info - fixed height */}
-        <div className="flex flex-col gap-2 p-3 sm:p-4 flex-1 min-h-[100px] justify-between">
+        <div className="flex flex-col gap-2 p-3 sm:p-4 flex-1 min-h-25 justify-between">
           {/* Name and Price */}
-          <div className="flex items-start justify-between gap-2 min-h-[2.5rem]">
+          <div className="flex items-start justify-between gap-2 min-h-10">
             <h3 className="text-xs sm:text-sm font-semibold text-slate-900 leading-tight line-clamp-2 group-hover/card:text-indigo-600 transition-colors">
               {name}
             </h3>
