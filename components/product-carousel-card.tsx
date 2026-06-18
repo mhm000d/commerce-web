@@ -1,6 +1,5 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Star } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import {RatingStars} from "@/components/rating-stars";
 

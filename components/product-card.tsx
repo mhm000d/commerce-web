@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Star } from "lucide-react";
 import type {ProductSummary} from "@/lib/api/types";
 import {RatingStars} from "@/components/rating-stars";
 
