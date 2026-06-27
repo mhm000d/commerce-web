@@ -1,4 +1,4 @@
-const API_BASE = process.env.API_BASE_URL;
+const API_BASE = process.env.API_BASE_URL ?? "http://localhost:5082";
 
 if (!API_BASE) throw new Error('API_BASE_URL is not defined. Add it to .env.local!');
 
