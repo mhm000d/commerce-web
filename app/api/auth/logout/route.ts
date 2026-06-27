@@ -15,6 +15,5 @@ export async function POST() {
   }
 
   cookieStore.delete("refresh_token");
-  // cookieStore.delete("refresh_token", { path: "/" });
   return new Response(null, { status: 204 });
 }
