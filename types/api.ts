@@ -4,6 +4,164 @@
  */
 
 export interface paths {
+    "/api/account/profile": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["Commerce.Contracts.Account.ProfileResponse"];
+                        "application/json": components["schemas"]["Commerce.Contracts.Account.ProfileResponse"];
+                        "text/json": components["schemas"]["Commerce.Contracts.Account.ProfileResponse"];
+                    };
+                };
+                /** @description Unauthorized */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["Microsoft.AspNetCore.Mvc.ProblemDetails"];
+                        "application/json": components["schemas"]["Microsoft.AspNetCore.Mvc.ProblemDetails"];
+                        "text/json": components["schemas"]["Microsoft.AspNetCore.Mvc.ProblemDetails"];
+                    };
+                };
+            };
+        };
+        put: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: {
+                content: {
+                    "application/json": components["schemas"]["Commerce.Contracts.Account.UpdateProfileRequest"];
+                    "text/json": components["schemas"]["Commerce.Contracts.Account.UpdateProfileRequest"];
+                    "application/*+json": components["schemas"]["Commerce.Contracts.Account.UpdateProfileRequest"];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["Commerce.Contracts.Account.ProfileResponse"];
+                        "application/json": components["schemas"]["Commerce.Contracts.Account.ProfileResponse"];
+                        "text/json": components["schemas"]["Commerce.Contracts.Account.ProfileResponse"];
+                    };
+                };
+                /** @description Bad Request */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["Commerce.Contracts.Common.ErrorResponse"];
+                        "application/json": components["schemas"]["Commerce.Contracts.Common.ErrorResponse"];
+                        "text/json": components["schemas"]["Commerce.Contracts.Common.ErrorResponse"];
+                    };
+                };
+                /** @description Unauthorized */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["Microsoft.AspNetCore.Mvc.ProblemDetails"];
+                        "application/json": components["schemas"]["Microsoft.AspNetCore.Mvc.ProblemDetails"];
+                        "text/json": components["schemas"]["Microsoft.AspNetCore.Mvc.ProblemDetails"];
+                    };
+                };
+            };
+        };
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/account/change-password": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: {
+                content: {
+                    "application/json": components["schemas"]["Commerce.Contracts.Account.ChangePasswordRequest"];
+                    "text/json": components["schemas"]["Commerce.Contracts.Account.ChangePasswordRequest"];
+                    "application/*+json": components["schemas"]["Commerce.Contracts.Account.ChangePasswordRequest"];
+                };
+            };
+            responses: {
+                /** @description No Content */
+                204: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Bad Request */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["Commerce.Contracts.Common.ErrorResponse"];
+                        "application/json": components["schemas"]["Commerce.Contracts.Common.ErrorResponse"];
+                        "text/json": components["schemas"]["Commerce.Contracts.Common.ErrorResponse"];
+                    };
+                };
+                /** @description Unauthorized */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["Commerce.Contracts.Common.ErrorResponse"];
+                        "application/json": components["schemas"]["Commerce.Contracts.Common.ErrorResponse"];
+                        "text/json": components["schemas"]["Commerce.Contracts.Common.ErrorResponse"];
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/addresses": {
         parameters: {
             query?: never;
@@ -215,6 +373,78 @@ export interface paths {
                 };
             };
         };
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/admin/orders/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["Commerce.Contracts.Orders.OrderResponse"];
+                        "application/json": components["schemas"]["Commerce.Contracts.Orders.OrderResponse"];
+                        "text/json": components["schemas"]["Commerce.Contracts.Orders.OrderResponse"];
+                    };
+                };
+                /** @description Unauthorized */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["Microsoft.AspNetCore.Mvc.ProblemDetails"];
+                        "application/json": components["schemas"]["Microsoft.AspNetCore.Mvc.ProblemDetails"];
+                        "text/json": components["schemas"]["Microsoft.AspNetCore.Mvc.ProblemDetails"];
+                    };
+                };
+                /** @description Forbidden */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["Microsoft.AspNetCore.Mvc.ProblemDetails"];
+                        "application/json": components["schemas"]["Microsoft.AspNetCore.Mvc.ProblemDetails"];
+                        "text/json": components["schemas"]["Microsoft.AspNetCore.Mvc.ProblemDetails"];
+                    };
+                };
+                /** @description Not Found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["Commerce.Contracts.Common.ErrorResponse"];
+                        "application/json": components["schemas"]["Commerce.Contracts.Common.ErrorResponse"];
+                        "text/json": components["schemas"]["Commerce.Contracts.Common.ErrorResponse"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
         options?: never;
         head?: never;
         patch?: never;
@@ -1363,6 +1593,78 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/orders/{id}/retry-payment": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["Commerce.Contracts.Orders.CheckoutResponse"];
+                        "application/json": components["schemas"]["Commerce.Contracts.Orders.CheckoutResponse"];
+                        "text/json": components["schemas"]["Commerce.Contracts.Orders.CheckoutResponse"];
+                    };
+                };
+                /** @description Bad Request */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["Commerce.Contracts.Common.ErrorResponse"];
+                        "application/json": components["schemas"]["Commerce.Contracts.Common.ErrorResponse"];
+                        "text/json": components["schemas"]["Commerce.Contracts.Common.ErrorResponse"];
+                    };
+                };
+                /** @description Unauthorized */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["Microsoft.AspNetCore.Mvc.ProblemDetails"];
+                        "application/json": components["schemas"]["Microsoft.AspNetCore.Mvc.ProblemDetails"];
+                        "text/json": components["schemas"]["Microsoft.AspNetCore.Mvc.ProblemDetails"];
+                    };
+                };
+                /** @description Not Found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["Commerce.Contracts.Common.ErrorResponse"];
+                        "application/json": components["schemas"]["Commerce.Contracts.Common.ErrorResponse"];
+                        "text/json": components["schemas"]["Commerce.Contracts.Common.ErrorResponse"];
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/admin/products/{productId}/images": {
         parameters: {
             query?: never;
@@ -2220,6 +2522,24 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
+        "Commerce.Contracts.Account.ChangePasswordRequest": {
+            currentPassword?: string;
+            newPassword?: string;
+        };
+        "Commerce.Contracts.Account.ProfileResponse": {
+            /** Format: uuid */
+            id?: string;
+            name?: string;
+            email?: string;
+            phone?: string | null;
+            role?: string;
+            /** Format: date-time */
+            createdAt?: string;
+        };
+        "Commerce.Contracts.Account.UpdateProfileRequest": {
+            name?: string;
+            phone?: string | null;
+        };
         "Commerce.Contracts.Addresses.AddressRequest": {
             fullName?: string;
             phoneNumber?: string;
@@ -2474,6 +2794,8 @@ export interface components {
             /** Format: date-time */
             createdAt?: string;
             userName?: string;
+            /** Format: uuid */
+            userId?: string;
         };
         "Microsoft.AspNetCore.Mvc.ProblemDetails": {
             type?: string | null;
