@@ -1,10 +1,10 @@
 import type { components } from "@/types/api";
 
-// List DTO (lean — only what the list endpoint returns)
+// List DTO
 export type ProductSummary =
   components["schemas"]["Commerce.Contracts.Products.ProductsResponse"];
 
-// Detail DTO (full)
+// Detail DTO
 export type Product =
   components["schemas"]["Commerce.Contracts.Products.ProductResponse"];
 
@@ -35,8 +35,25 @@ export type CheckoutResponse =
 export type ErrorResponse =
   components["schemas"]["Commerce.Contracts.Common.ErrorResponse"];
 
-// Pagination wrapper — the generated name is unreadable, alias it
+// Pagination wrapper
 export type PagedResponse<T> = {
   data?: T[] | null;
   pagination?: components["schemas"]["Commerce.Contracts.Common.PaginationMeta"];
 };
+
+export type User =
+  components["schemas"]["Commerce.Contracts.Auth.UserResponse"];
+
+export type LoginRequest =
+  components["schemas"]["Commerce.Contracts.Auth.LoginRequest"];
+
+export type RegisterRequest =
+  components["schemas"]["Commerce.Contracts.Auth.RegisterRequest"];
+
+export type Address =
+  components["schemas"]["Commerce.Contracts.Addresses.AddressResponse"];
+
+export type AddressRequest =
+  components["schemas"]["Commerce.Contracts.Addresses.AddressRequest"];
+
+export type RatingResponse = components['schemas']['Commerce.Contracts.Ratings.RatingResponse'];
