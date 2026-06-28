@@ -55,7 +55,6 @@ export default function CartPage() {
   }
 
   const subtotal = cart.subtotal || 0;
-  const itemCount = cart.items!.reduce((sum, item) => sum + (item.quantity ?? 0), 0);
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">

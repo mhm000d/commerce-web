@@ -22,7 +22,7 @@ async function fetchCartData(): Promise<Cart | null> {
   return null;
 }
 
-export const useCartStore = create<CartState>((set, get) => ({
+export const useCartStore = create<CartState>((set) => ({
   cart: null,
   isLoading: false,
 
