@@ -91,7 +91,7 @@ export default function ProductsPage() {
     return () => {
       isMountedRef.current = false;
     };
-  }, [search, category, sortBy]);
+  }, [fetchProducts]);
 
   // Infinite scroll – Intersection Observer
   useEffect(() => {
@@ -118,18 +118,10 @@ export default function ProductsPage() {
       {rootMargin: "200px"}
     );
 
-    observer.observe(sentinelRef.current);
+    const currentSentinel = sentinelRef.current;
+    observer.observe(currentSentinel);
     return () => observer.disconnect();
-  }, [currentPage, totalPages, allLoaded, loadingMore, fetchProducts, search, category, sortBy, router]);
-
-  const buildUrl = (page: number) => {
-    const params = new URLSearchParams();
-    if (page > 1) params.set("page", String(page));
-    if (search) params.set("search", search);
-    if (category) params.set("category", category);
-    if (sortBy) params.set("sortBy", sortBy);
-    return `/products${params.toString() ? `?${params}` : ""}`;
-  };
+  }, [currentPage, totalPages, allLoaded, loading, loadingMore, fetchProducts, search, category, sortBy, router]);
 
   const breadcrumbItems: BreadcrumbItem[] = [{label: "Products", href: "/products"}];
   if (category) {
@@ -204,8 +196,8 @@ export default function ProductsPage() {
       ) : (
         <>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
-            {products.map((product) => (
-              <ProductCard key={product.id} product={product}/>
+            {products.map((product, index) => (
+              <ProductCard key={product.id || index} product={product}/>
             ))}
           </div>
 

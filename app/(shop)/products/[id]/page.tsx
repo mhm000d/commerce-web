@@ -14,7 +14,7 @@ import { ProductCarousel } from "@/components/product-carousel";
 import { RecentlyViewed } from "@/components/recently-viewed";
 import { ProductReviews } from "@/components/product-reviews";
 import { getProduct, listProducts } from "@/lib/api/products";
-import type { Product } from "@/lib/api/types";
+import type { Product, ProductSummary } from "@/lib/api/types";
 
 export default function ProductDetailPage() {
   const params = useParams();
@@ -22,7 +22,7 @@ export default function ProductDetailPage() {
 
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
-  const [relatedProducts, setRelatedProducts] = useState<any[]>([]);
+  const [relatedProducts, setRelatedProducts] = useState<ProductSummary[]>([]);
   const [refreshKey, setRefreshKey] = useState(0);
 
   const handleReviewChange = () => {
@@ -179,13 +179,13 @@ export default function ProductDetailPage() {
 
       {/* Related Products */}
       {relatedProducts.length > 0 && (
-        <div className="mt-16 lg:mt-20 max-w-7xl mx-auto">
+        <div className="mt-16 lg:mt-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <ProductCarousel products={relatedProducts} title="You May Also Like" />
         </div>
       )}
 
       {/* Recently Viewed */}
-      <div className="mt-16 lg:mt-20 max-w-7xl mx-auto">
+      <div className="mt-16 lg:mt-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <RecentlyViewed productId={product.id} />
       </div>
 
@@ -194,137 +194,3 @@ export default function ProductDetailPage() {
     </div>
   );
 }
-
-// import { notFound } from "next/navigation";
-// import { Star, ArrowLeft } from "lucide-react";
-// import Link from "next/link";
-// import { Badge } from "@/components/ui/badge";
-// import { ProductImageGallery } from "@/components/product-image-gallery";
-// import { AddToCartButton } from "@/components/add-to-cart-button";
-// import { getProduct } from "@/lib/api/products";
-// import { BuyNowButton } from "@/components/buy-now-button";
-// import { ProductDetailsAccordion } from "@/components/product-details-accordion";
-// import {BreadcrumbNav} from "@/components/breadcrumb-nav";
-// import {toast} from "sonner";
-//
-// interface PageProps {
-//   params: Promise<{ id: string }>;
-// }
-//
-// export default async function ProductDetailPage({ params }: PageProps) {
-//   const { id } = await params;
-//
-//   let product;
-//   try {
-//     product = await getProduct(id);
-//   } catch {
-//     toast.error("Failed to load product details.");
-//     notFound();
-//   }
-//
-//   const sortedImages = [...(product.images ?? [])].sort(
-//     (a, b) => (a.displayOrder ?? 0) - (b.displayOrder ?? 0)
-//   );
-//
-//   const stockQuantity = product.stockQuantity ?? 0;
-//
-//   const stockStatus =
-//     stockQuantity === 0
-//       ? { label: "Out of stock", className: "bg-red-100 text-red-700 border-red-200" }
-//       : stockQuantity <= 5
-//         ? { label: `Only ${stockQuantity} left`, className: "bg-amber-100 text-amber-700 border-amber-200" }
-//         : { label: "In stock", className: "bg-emerald-100 text-emerald-700 border-emerald-200" };
-//
-//   return (
-//     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-//
-//       {/* Breadcrumb */}
-//       <div className="mb-8">
-//         <BreadcrumbNav
-//           items={[
-//             { label: "Products", href: "/products" },
-//             {
-//               label: product.category ?? "Category",
-//               href: product.category ? `/products?category=${encodeURIComponent(product.category)}` : "/products"
-//             },
-//             { label: product.name ?? "Product", isCurrent: true },
-//           ]}
-//         />
-//       </div>
-//
-//       {/* Main Product Section – centered and spacious */}
-//       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
-//         {/* Left: Image Gallery */}
-//         <ProductImageGallery images={sortedImages} name={product.name ?? ""} />
-//
-//         {/* Right: Product Info */}
-//         <div className="flex flex-col gap-6">
-//           {/* Category */}
-//           <Link
-//             href={`/products?category=${encodeURIComponent(product.category ?? "")}`}
-//             className="text-xs font-semibold uppercase tracking-wider text-indigo-600 hover:text-indigo-800 hover:underline transition-colors inline-block"
-//           >
-//             {product.category}
-//           </Link>
-//
-//           {/* Name */}
-//           <h1 className="text-3xl lg:text-4xl font-bold text-slate-900 leading-tight">
-//             {product.name}
-//           </h1>
-//
-//           {/* Rating */}
-//           {product.averageRating && product.ratingCount && product.ratingCount > 0 ? (
-//             <div className="flex items-center gap-2">
-//               <div className="flex items-center gap-0.5">
-//                 {[1, 2, 3, 4, 5].map((i) => (
-//                   <Star
-//                     key={i}
-//                     size={16}
-//                     className={
-//                       i <= Math.round(product.averageRating!)
-//                         ? "fill-amber-400 text-amber-400"
-//                         : "fill-slate-200 text-slate-200"
-//                     }
-//                   />
-//                 ))}
-//               </div>
-//               <span className="text-sm text-slate-600">
-//                 {product.averageRating.toFixed(1)} · {product.ratingCount}{" "}
-//                 {product.ratingCount === 1 ? "review" : "reviews"}
-//               </span>
-//             </div>
-//           ) : (
-//             <span className="text-sm text-slate-400">No reviews yet</span>
-//           )}
-//
-//           {/* Price & Stock – side by side */}
-//           <div className="flex flex-wrap items-center gap-4 py-2">
-//             <span className="text-4xl font-bold text-slate-900 tabular-nums">
-//               ${(product.price ?? 0).toFixed(2)}
-//             </span>
-//             <Badge className={`${stockStatus.className} text-sm px-3 py-1`}>
-//               {stockStatus.label}
-//             </Badge>
-//           </div>
-//
-//           {/* Divider */}
-//           <div className="border-t border-slate-200" />
-//
-//           {/* Action Buttons – stacked vertically */}
-//           <div className="flex flex-col gap-3">
-//             <AddToCartButton product={product} disabled={stockQuantity === 0} />
-//             <BuyNowButton product={product} disabled={stockQuantity === 0} />
-//           </div>
-//         </div>
-//       </div>
-//
-//       {/* Product Details & Specifications – full width section */}
-//       <div className="mt-16 lg:mt-20 max-w-4xl mx-auto w-full">
-//         <ProductDetailsAccordion
-//           description={product.description ?? ""}
-//           specifications={product.specifications}
-//         />
-//       </div>
-//     </div>
-//   );
-// }

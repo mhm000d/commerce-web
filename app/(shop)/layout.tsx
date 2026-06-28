@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
 import { AuthNav } from "@/components/auth-nav";
 import { MobileBottomNav } from "@/components/mobile-bottom-nav";
@@ -19,7 +18,6 @@ const CATEGORIES = [
 ];
 
 export default function ShopLayout({ children }: { children: React.ReactNode }) {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const showHeader = useHideOnScroll({ threshold: 80 });
 
   return (
