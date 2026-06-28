@@ -92,6 +92,8 @@ export default function AdminOrderDetailPage() {
     return <p className="text-red-600">Order not found.</p>;
   }
 
+  const isPaid = order.status === "Paid" || order.status === "Shipped" || order.status === "Delivered";
+
   return (
     <div className="max-w-4xl">
       <Link
@@ -183,7 +185,7 @@ export default function AdminOrderDetailPage() {
             {order.payment && (
               <div className="bg-white border border-slate-200 rounded-lg p-6">
                 <h2 className="text-sm font-semibold text-slate-900 mb-3 flex items-center gap-2">
-                  {order.payment.paymentMethod === "card" ? (
+                  {order.payment.paymentMethod?.toLowerCase() === "card" ? (
                     <CreditCard className="h-4 w-4 text-slate-400"/>
                   ) : (
                     <DollarSign className="h-4 w-4 text-slate-400"/>
@@ -194,13 +196,13 @@ export default function AdminOrderDetailPage() {
                   <p>
                     Method:{" "}
                     <span className="font-medium text-slate-900">
-                      {order.payment.paymentMethod === "card" ? "Credit / Debit Card" : "Cash on Delivery"}
+                      {order.payment.paymentMethod?.toLowerCase() === "card" ? "Credit / Debit Card" : "Cash on Delivery"}
                     </span>
                   </p>
                   <p>
                     Status:{" "}
                     <span className="font-medium text-slate-900">
-                      {order.payment.status}
+                      {isPaid ? "Paid" : order.payment.status}
                     </span>
                   </p>
                 </div>
