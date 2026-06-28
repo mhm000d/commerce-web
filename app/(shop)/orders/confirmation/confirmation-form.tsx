@@ -91,7 +91,6 @@ export default function OrderConfirmationPage() {
     ? "Your order has been placed. You will pay when your order arrives."
     : "Your order has been placed. Payment is being processed.";
 
-  const paymentMethodLabel = isCOD ? "Cash on Delivery" : "Credit / Debit Card";
 
   return (
     <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-12 text-center">
@@ -134,7 +133,7 @@ export default function OrderConfirmationPage() {
       </p>
 
       <p className="text-sm text-slate-500 mt-2">
-        We&apos;ve sent a confirmation email to your email address.
+        We have sent a confirmation email to your email address.
       </p>
 
       <div className="flex flex-col sm:flex-row justify-center gap-4 mt-8">
