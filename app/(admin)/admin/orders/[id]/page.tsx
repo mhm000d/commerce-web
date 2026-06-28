@@ -1,7 +1,7 @@
 "use client";
 
 import {useEffect, useState} from "react";
-import {useParams, useRouter} from "next/navigation";
+import {useParams} from "next/navigation";
 import Link from "next/link";
 import {clientFetch} from "@/lib/client-fetch";
 import {OrderStatusBadge} from "@/components/order-status-badge";
@@ -14,7 +14,6 @@ import type {Order} from "@/lib/api/types";
 import {OrderProgress} from "@/components/order-progress";
 
 export default function AdminOrderDetailPage() {
-  const router = useRouter();
   const params = useParams();
   const orderId = params.id as string;
   const [order, setOrder] = useState<Order | null>(null);

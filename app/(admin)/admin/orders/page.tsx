@@ -2,6 +2,7 @@
 
 import {useEffect, useState} from "react";
 import Link from "next/link";
+import {useSearchParams} from "next/navigation";
 import {clientFetch} from "@/lib/client-fetch";
 import {OrderStatusBadge} from "@/components/order-status-badge";
 import {PaginationNav} from "@/components/pagination-nav";
@@ -11,9 +12,10 @@ import type {Order} from "@/lib/api/types";
 import {FileText} from "lucide-react";
 
 export default function AdminOrdersPage() {
+  const searchParams = useSearchParams();
+  const page = parseInt(searchParams.get("page") || "1");
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
-  const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {

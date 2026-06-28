@@ -153,8 +153,8 @@ export default function AdminProductsPage() {
               </td>
             </tr>
           ) : (
-            products.map((product) => (
-              <tr key={product.id} className="border-b border-slate-100 hover:bg-slate-50">
+            products.map((product, index) => (
+              <tr key={product.id || index} className="border-b border-slate-100 hover:bg-slate-50">
                 <td className="px-4 py-3 font-medium text-slate-900">{product.name}</td>
                 <td className="px-4 py-3">
                   {product.images?.[0]?.imageUrl ? (
