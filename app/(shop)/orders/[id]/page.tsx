@@ -49,7 +49,12 @@ export default function OrderDetailPage() {
         const res = await clientFetch(`/api/orders/${orderId}`);
         if (!res.ok) {
           const data = await res.json();
-          throw new Error(data?.message || "Failed to load order");
+          const message = data?.message || "Failed to load order";
+          if (isMounted) {
+            setError(message);
+            setLoading(false);
+          }
+          return;
         }
         const data = await res.json();
         if (isMounted) setOrder(data);
@@ -111,7 +116,11 @@ export default function OrderDetailPage() {
       });
       if (!res.ok) {
         const data = await res.json();
-        throw new Error(data?.message || "Failed to cancel order");
+        const message = data?.message || "Failed to cancel order";
+        toast.error(message);
+        setError(message);
+        setIsCancelling(false);
+        return;
       }
       toast.success("Order cancelled successfully.");
       setCancelDialogOpen(false);
