@@ -1,6 +1,6 @@
 "use client";
 
-import {useEffect, useState, useRef} from "react";
+import {useEffect, useState, useRef, useCallback} from "react";
 import {useRouter, useSearchParams} from "next/navigation";
 import {useCartStore} from "@/store/cart";
 import {useAddressStore} from "@/store/addresses";
@@ -23,7 +23,7 @@ export default function CheckoutReviewPage() {
   const {cart, fetchCart} = useCartStore();
   const {addresses, fetchAddresses} = useAddressStore();
 
-  const [paymentMethod, setPaymentMethod] = useState<PaymentMethod | null>(methodParam);
+  const [paymentMethod] = useState<PaymentMethod | null>(methodParam);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [clientSecret, setClientSecret] = useState<string | null>(null);
@@ -41,7 +41,7 @@ export default function CheckoutReviewPage() {
     fetchAddresses();
   }, [addressId, paymentMethod, router, fetchCart, fetchAddresses]);
 
-  const createCardOrder = async () => {
+  const createCardOrder = useCallback(async () => {
     if (!addressId) return;
     setLoading(true);
     setError(null);
@@ -74,7 +74,7 @@ export default function CheckoutReviewPage() {
       setLoading(false);
       setIsOrderCreating(false);
     }
-  };
+  }, [addressId]);
 
   const handlePlaceCashOrder = async () => {
     if (!addressId || paymentMethod !== "CashOnDelivery") return;
@@ -117,7 +117,7 @@ export default function CheckoutReviewPage() {
     if (paymentMethod !== "Card") {
       hasTriggered.current = false;
     }
-  }, [paymentMethod, clientSecret, isOrderCreating]);
+  }, [paymentMethod, clientSecret, isOrderCreating, createCardOrder]);
 
   const subtotal = cart?.subtotal || 0;
   const itemCount = cart?.items?.reduce((sum, item) => sum + (item.quantity ?? 0), 0) || 0;
