@@ -74,7 +74,7 @@ commerce-web/
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/your-username/commerce-web.git
+git clone https://github.com/mhm000d/commerce-web.git
 cd commerce-web
 ```
 ### 2. Install dependencies
