@@ -28,7 +28,11 @@ export default function AdminOrderDetailPage() {
       try {
         const res = await clientFetch(`/api/admin/orders/${orderId}`);
         if (!isMounted) return;
-        if (!res.ok) throw new Error("Order not found");
+        if (!res.ok) {
+          if (isMounted) toast.error("Order not found");
+          setLoading(false);
+          return;
+        }
         const data = await res.json();
         if (isMounted) setOrder(data);
       } catch (err) {
@@ -63,7 +67,9 @@ export default function AdminOrderDetailPage() {
         // Revert to previous state on error
         setOrder(previousOrder);
         const data = await res.json();
-        throw new Error(data?.message || "Failed to update status");
+        toast.error(data?.message || "Failed to update status");
+        setUpdating(false);
+        return;
       }
 
       // Use the server response directly (contains full updated order)

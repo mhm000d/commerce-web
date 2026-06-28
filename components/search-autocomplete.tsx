@@ -70,7 +70,11 @@ export function SearchAutocomplete() {
           signal: controller.signal,
         });
 
-        if (!res.ok) throw new Error("Search failed");
+        if (!res.ok) {
+          setResults([]);
+          setLoading(false);
+          return;
+        }
 
         const data = await res.json();
         setResults(data.data || []);

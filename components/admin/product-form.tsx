@@ -115,7 +115,9 @@ export function ProductForm({initialData, isEditing = false}: ProductFormProps) 
 
       if (!productRes.ok) {
         const errorData = await productRes.json();
-        throw new Error(errorData?.message || "Failed to save product");
+        toast.error(errorData?.message || "Failed to save product");
+        setLoading(false);
+        return;
       }
 
       const product = await productRes.json();

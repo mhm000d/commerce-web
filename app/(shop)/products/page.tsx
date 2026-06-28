@@ -49,7 +49,14 @@ export default function ProductsPage() {
         if (sortBy) qs.set("SortBy", sortBy);
 
         const res = await clientFetch(`/api/products?${qs}`);
-        if (!res.ok) throw new Error("Failed to fetch products");
+        if (!res.ok) {
+          if (reset) {
+            setLoading(false);
+          } else {
+            setLoadingMore(false);
+          }
+          return;
+        }
         const data = await res.json();
 
         const items = data.data || [];

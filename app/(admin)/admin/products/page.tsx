@@ -56,7 +56,11 @@ export default function AdminProductsPage() {
           signal: controller.signal,
         });
 
-        if (!res.ok) throw new Error("Failed to fetch products");
+        if (!res.ok) {
+          toast.error("Failed to fetch products");
+          setLoading(false);
+          return;
+        }
 
         const data = await res.json();
         setProducts(data.data || []);
@@ -86,7 +90,8 @@ export default function AdminProductsPage() {
       const res = await clientFetch(`/api/admin/products/${id}`, {method: "DELETE"});
       if (!res.ok) {
         const data = await res.json();
-        throw new Error(data?.message || "Failed to delete product");
+        toast.error(data?.message || "Failed to delete product");
+        return;
       }
       toast.success("Product deleted successfully.");
       setPage(1);

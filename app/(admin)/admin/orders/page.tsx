@@ -26,7 +26,11 @@ export default function AdminOrdersPage() {
       try {
         const res = await clientFetch(`/api/admin/orders?page=${page}&pageSize=20`);
         if (!isMounted) return;
-        if (!res.ok) throw new Error("Failed to fetch orders");
+        if (!res.ok) {
+          if (isMounted) toast.error("Failed to fetch orders");
+          setLoading(false);
+          return;
+        }
         const data = await res.json();
         if (isMounted) {
           setOrders(data.data || []);

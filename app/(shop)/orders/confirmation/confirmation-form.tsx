@@ -31,7 +31,13 @@ export default function OrderConfirmationPage() {
         const res = await clientFetch(`/api/orders/${orderId}`);
         if (!res.ok) {
           const data = await res.json();
-          throw new Error(data?.message || "Order not found");
+          if (isMounted) {
+            const message = data?.message || "Order not found";
+            setError(message);
+            toast.error(message);
+            setLoading(false);
+          }
+          return;
         }
         const data = await res.json();
         if (isMounted) setOrder(data);
