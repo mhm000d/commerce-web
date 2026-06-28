@@ -34,7 +34,7 @@ export default function RetryPaymentPage() {
         const decodedSecret = decodeURIComponent(data.clientSecret);
         setClientSecret(decodedSecret);
         setLoading(false);
-      } catch (err) {
+      } catch {
         setError("Something went wrong. Please try again.");
         setLoading(false);
       }
