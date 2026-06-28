@@ -19,6 +19,7 @@ import {
 import AddressForm from "@/components/address-form";
 import { ProductSummaryItem } from "@/components/product-summary-item";
 import { CheckoutSteps } from "@/components/checkout-steps";
+import { AddressRequest } from "@/lib/api/types";
 
 export default function AddressesForm() {
   const router = useRouter();
@@ -43,7 +44,7 @@ export default function AddressesForm() {
     }
   }, [status, fetchAddresses, fetchCart]);
 
-  const handleAddAddress = async (data: any) => {
+  const handleAddAddress = async (data: AddressRequest) => {
     setAddError(null);
     try {
       const newAddr = await addAddress(data);
@@ -79,7 +80,6 @@ export default function AddressesForm() {
     );
   }
 
-  const selectedAddress = addresses.find((a) => a.id === selectedAddressId);
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">

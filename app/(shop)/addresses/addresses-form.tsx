@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/dialog";
 import AddressForm from "@/components/address-form";
 import {toast} from "sonner";
+import { AddressRequest } from "@/lib/api/types";
 
 const MAX_ADDRESSES = 5;
 
@@ -70,7 +71,7 @@ export default function AddressesForm() {
     }
   };
 
-  const handleAddAddress = async (data: any) => {
+  const handleAddAddress = async (data: AddressRequest) => {
     setAddError(null);
     try {
       await addAddress(data);
