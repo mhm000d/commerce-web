@@ -1,6 +1,6 @@
 "use client";
 
-import {useEffect, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 import type {ProductSummary} from "@/lib/api/types";
 import {clientFetch} from "@/lib/client-fetch";
 
@@ -17,7 +17,7 @@ export function useRecentlyViewed(currentProductId?: string) {
   const [products, setProducts] = useState<ProductSummary[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const saveViewedProduct = (productId: string) => {
+  const saveViewedProduct = useCallback((productId: string) => {
     if (typeof window === "undefined") return;
 
     const stored = localStorage.getItem(STORAGE_KEY);
@@ -28,9 +28,9 @@ export function useRecentlyViewed(currentProductId?: string) {
     const trimmed = updated.slice(0, MAX_ITEMS);
 
     localStorage.setItem(STORAGE_KEY, JSON.stringify(trimmed));
-  };
+  }, []);
 
-  const fetchRecentlyViewed = async () => {
+  const fetchRecentlyViewed = useCallback(async () => {
     if (typeof window === "undefined") {
       setLoading(false);
       return;
@@ -65,16 +65,27 @@ export function useRecentlyViewed(currentProductId?: string) {
     try {
       const limitedIds = ids.slice(0, 6);
       const productPromises = limitedIds.map((id) =>
-        clientFetch(`/api/products/${id}`).then((res) => res.json())
+        clientFetch(`/api/products/${id}`).then(async (res) => {
+          if (!res.ok) return null;
+          try {
+            const data = await res.json();
+            // validate to ensure we have a valid product
+            if (!data || !data.id || !data.name) return null;
+            return data;
+          } catch {
+            return null;
+          }
+        })
       );
       const results = await Promise.all(productPromises);
-      setProducts(results);
+      const validProducts = results.filter((p): p is ProductSummary => p !== null);
+      setProducts(validProducts);
     } catch {
       // Silently fail
     } finally {
       setLoading(false);
     }
-  };
+  }, [currentProductId]);
 
   useEffect(() => {
     let isMounted = true;
@@ -89,7 +100,7 @@ export function useRecentlyViewed(currentProductId?: string) {
     return () => {
       isMounted = false;
     };
-  }, [currentProductId]);
+  }, [fetchRecentlyViewed]);
 
   return {products, loading, saveViewedProduct};
 }
