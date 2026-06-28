@@ -19,6 +19,8 @@ interface ProductCarouselProps {
 function CarouselArrows() {
   const {scrollPrev, scrollNext, canScrollPrev, canScrollNext} = useCarousel();
 
+  if (!canScrollPrev && !canScrollNext) return null;
+
   return (
     <div className="absolute inset-y-0 left-0 right-0 flex items-center justify-between px-2 pointer-events-none">
       <button
@@ -50,8 +52,12 @@ export function ProductCarousel({products, title}: ProductCarouselProps) {
   const isTablet = useMediaQuery("(min-width: 641px) and (max-width: 1024px)");
 
   const slidesToScroll = isMobile ? 1 : isTablet ? 2 : 4;
+  const validProducts = products.filter(
+    (p): p is ProductSummary & { id: string; name: string } =>
+      !!(p.id && p.name)
+  );
 
-  if (products.length === 0) return null;
+  if (validProducts.length === 0) return null;
 
   return (
     <section className="space-y-4">
@@ -67,18 +73,18 @@ export function ProductCarousel({products, title}: ProductCarouselProps) {
               containScroll: "trimSnaps",
               dragFree: false,
             }}
-            className="w-full"
+            className="w-full relative"
           >
             <CarouselContent className="-ml-4">
-              {products.map((product) => (
+              {validProducts.map((product, index) => (
                 <CarouselItem
-                  key={product.id}
+                  key={product.id || index}
                   className="pl-4 basis-40 sm:basis-48 md:basis-52 lg:basis-56"
                 >
                   <div className="h-[330px] sm:h-[350px]">
                     <ProductCarouselCard
-                      id={product.id || ""}
-                      name={product.name || "Unnamed Product"}
+                      id={product.id}
+                      name={product.name}
                       price={product.price || 0}
                       averageRating={product.averageRating}
                       images={product.images || []}

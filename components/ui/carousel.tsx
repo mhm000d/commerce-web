@@ -95,14 +95,23 @@ function Carousel({
 
   React.useEffect(() => {
     if (!api) return
-    onSelect(api)
+
     api.on("reInit", onSelect)
     api.on("select", onSelect)
 
+    // Initial state check
+    const timeout = setTimeout(() => {
+      if (api.canScrollPrev() !== canScrollPrev || api.canScrollNext() !== canScrollNext) {
+        onSelect(api)
+      }
+    }, 0)
+
     return () => {
-      api?.off("select", onSelect)
+      clearTimeout(timeout)
+      api.off("reInit", onSelect)
+      api.off("select", onSelect)
     }
-  }, [api, onSelect])
+  }, [api, onSelect, canScrollPrev, canScrollNext])
 
   return (
     <CarouselContext.Provider
@@ -120,7 +129,7 @@ function Carousel({
     >
       <div
         onKeyDownCapture={handleKeyDown}
-        className={cn("relative", className)}
+        className={className}
         role="region"
         aria-roledescription="carousel"
         data-slot="carousel"

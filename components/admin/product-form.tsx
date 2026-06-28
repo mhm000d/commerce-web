@@ -2,6 +2,7 @@
 
 import {useState} from "react";
 import {useRouter} from "next/navigation";
+import Image from "next/image";
 import {Button} from "@/components/ui/button";
 import {Input} from "@/components/ui/input";
 import {Label} from "@/components/ui/label";
@@ -280,10 +281,11 @@ export function ProductForm({initialData, isEditing = false}: ProductFormProps) 
           <div className="flex flex-wrap gap-4 mb-3">
             {imagePreviews.map((src, index) => (
               <div key={index} className="relative w-20 h-20 rounded-lg overflow-hidden border border-slate-200">
-                <img
+                <Image
                   src={src}
                   alt={`Preview ${index + 1}`}
-                  className="w-full h-full object-cover"
+                  fill
+                  className="object-cover"
                 />
                 <button
                   type="button"

@@ -41,12 +41,12 @@ export function CategoryCarouselClient({
               containScroll: "trimSnaps",
               dragFree: false,
             }}
-            className="w-full"
+            className="w-full relative"
           >
             <CarouselContent className="-ml-4">
-              {products.map((product) => (
+              {products.map((product, index) => (
                 <CarouselItem
-                  key={product.id}
+                  key={product.id || index}
                   className="pl-4 basis-40 sm:basis-48 md:basis-52 lg:basis-56"
                 >
                   <div className="h-[330px] sm:h-[350px]">
@@ -75,6 +75,8 @@ export function CategoryCarouselClient({
 
 function CarouselArrows() {
   const { scrollPrev, scrollNext, canScrollPrev, canScrollNext } = useCarousel();
+
+  if (!canScrollPrev && !canScrollNext) return null;
 
   return (
     <div className="absolute inset-y-0 left-0 right-0 flex items-center justify-between px-2 pointer-events-none">
