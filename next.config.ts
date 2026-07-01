@@ -13,15 +13,14 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: "https",
-        hostname: imageHost,
+        hostname: "d2lihcpe48nrxn.cloudfront.net",
         port: "",
         pathname: "/**",
       },
-      // If using MinIO locally:
       {
-        protocol: "http",
-        hostname: "localhost",
-        port: "9000",
+        protocol: "https",
+        hostname: imageHost,
+        port: "",
         pathname: "/**",
       },
     ],
