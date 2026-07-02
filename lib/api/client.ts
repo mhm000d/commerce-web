@@ -1,6 +1,6 @@
-const API_BASE = process.env.API_BASE_URL ?? "http://localhost:5082";
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL;
 
-if (!API_BASE) throw new Error('API_BASE_URL is not defined. Add it to .env.local!');
+if (!API_BASE) throw new Error('NEXT_PUBLIC_API_BASE_URL is not defined. Add it to your environment (.env.local for dev, .env on Vercel)!');
 
 export async function serverFetch<T>(
   path: string,
