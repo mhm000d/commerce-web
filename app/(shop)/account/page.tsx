@@ -31,6 +31,7 @@ export default function AccountPage() {
     name: "",
     phone: "",
   });
+  const [errors, setErrors] = useState<Record<string, string>>({});
   const [isEditing, setIsEditing] = useState(false);
   const [isSavingProfile, setIsSavingProfile] = useState(false);
 
@@ -47,7 +48,7 @@ export default function AccountPage() {
     try {
       const res = await clientFetch("/api/account/profile");
       if (!res.ok) {
-        throw new Error("Failed to fetch profile");
+        setError("Failed to fetch profile");
       }
       const data = await res.json();
       setProfile(data);
@@ -74,9 +75,24 @@ export default function AccountPage() {
     }
   }, [status, router]);
 
+  const validatePhone = (phone: string) => {
+    if (!phone) return null; // Phone is optional in profile
+    const phoneRegex = /^01[0125][0-9]{8}$/;
+    if (!phoneRegex.test(phone)) return "Please enter a valid Egyptian phone number (e.g. 01012345678)";
+    return null;
+  };
+
   const handleProfileSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
+
+    const phoneError = validatePhone(profileForm.phone);
+    if (phoneError) {
+      setErrors({ phone: phoneError });
+      return;
+    }
+    setErrors({});
+
     setIsSavingProfile(true);
 
     try {
@@ -90,7 +106,7 @@ export default function AccountPage() {
 
       if (!res.ok) {
         const data = await res.json();
-        throw new Error(data?.message || "Failed to update profile");
+        setError(data?.message || "Failed to update profile");
       }
 
       const updatedProfile = await res.json();
@@ -144,7 +160,7 @@ export default function AccountPage() {
 
       if (!res.ok) {
         const data = await res.json();
-        throw new Error(data?.message || "Failed to change password");
+        setError(data?.message || "Failed to change password");
       }
 
       setPasswordSuccess(true);
@@ -214,9 +230,14 @@ export default function AccountPage() {
                   id="phone"
                   type="tel"
                   value={profileForm.phone}
-                  onChange={(e) => setProfileForm({...profileForm, phone: e.target.value})}
-                  placeholder="+20123456789"
+                  onChange={(e) => {
+                    setProfileForm({...profileForm, phone: e.target.value});
+                    if (errors.phone) setErrors({...errors, phone: ""});
+                  }}
+                  placeholder="01012345678"
+                  className={errors.phone ? "border-red-500" : ""}
                 />
+                {errors.phone && <p className="text-xs text-red-500 mt-1">{errors.phone}</p>}
               </div>
               {error && <p className="text-sm text-red-600">{error}</p>}
               <div className="flex gap-3">
@@ -229,6 +250,7 @@ export default function AccountPage() {
                   onClick={() => {
                     setIsEditing(false);
                     setError(null);
+                    setErrors({});
                     setProfileForm({
                       name: profile?.name || "",
                       phone: profile?.phone || "",

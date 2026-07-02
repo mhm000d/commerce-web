@@ -26,6 +26,7 @@ export default function AddressForm({
                                       error = null,
                                       disableDefaultToggle = false,
                                     }: AddressFormProps) {
+  const [errors, setErrors] = useState<Record<string, string>>({});
   const [form, setForm] = useState<AddressRequest>({
     fullName: initialData.fullName || "",
     phoneNumber: initialData.phoneNumber || "",
@@ -49,8 +50,21 @@ export default function AddressForm({
     }));
   };
 
+  const validatePhone = (phone: string) => {
+    const phoneRegex = /^01[0125][0-9]{8}$/;
+    if (!phone) return "Phone number is required";
+    if (!phoneRegex.test(phone)) return "Please enter a valid Egyptian phone number (e.g. 01012345678)";
+    return null;
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    const phoneError = validatePhone(form.phoneNumber!);
+    if (phoneError) {
+      setErrors({ phoneNumber: phoneError });
+      return;
+    }
+    setErrors({});
     onSubmit(form);
   };
 
@@ -79,9 +93,18 @@ export default function AddressForm({
           <Input
             type="tel"
             value={form.phoneNumber}
-            onChange={(e) => setForm({ ...form, phoneNumber: e.target.value })}
+            onChange={(e) => {
+              setForm({ ...form, phoneNumber: e.target.value });
+              if (errors.phoneNumber) {
+                setErrors({ ...errors, phoneNumber: "" });
+              }
+            }}
             required
+            className={errors.phoneNumber ? "border-red-500" : ""}
           />
+          {errors.phoneNumber && (
+            <p className="text-red-500 text-xs mt-1">{errors.phoneNumber}</p>
+          )}
         </div>
         <div className="md:col-span-2">
           <Label>Country</Label>

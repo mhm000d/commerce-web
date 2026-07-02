@@ -14,12 +14,28 @@ export default function RegisterForm() {
   const redirect = searchParams.get("redirect") || "/";
   const setSession = useAuthStore((s) => s.setSession);
   const [form, setForm] = useState({name: "", email: "", password: "", phone: ""});
+  const [errors, setErrors] = useState<Record<string, string>>({});
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+
+  const validatePhone = (phone: string) => {
+    if (!phone) return null; // Phone is optional in register
+    const phoneRegex = /^01[0125][0-9]{8}$/;
+    if (!phoneRegex.test(phone)) return "Please enter a valid Egyptian phone number (e.g. 01012345678)";
+    return null;
+  };
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError(null);
+
+    const phoneError = validatePhone(form.phone);
+    if (phoneError) {
+      setErrors({ phone: phoneError });
+      return;
+    }
+    setErrors({});
+
     setLoading(true);
 
     const res = await fetch("/api/auth/register", {
@@ -54,7 +70,16 @@ export default function RegisterForm() {
         </div>
         <div className="flex flex-col gap-1.5">
           <Label htmlFor="phone">Phone</Label>
-          <Input id="phone" value={form.phone} onChange={(e) => setForm({...form, phone: e.target.value})}/>
+          <Input
+            id="phone"
+            value={form.phone}
+            onChange={(e) => {
+              setForm({...form, phone: e.target.value});
+              if (errors.phone) setErrors({...errors, phone: ""});
+            }}
+            className={errors.phone ? "border-red-500" : ""}
+          />
+          {errors.phone && <p className="text-xs text-red-500">{errors.phone}</p>}
         </div>
         <div className="flex flex-col gap-1.5">
           <Label htmlFor="password">Password</Label>
