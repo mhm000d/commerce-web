@@ -3,6 +3,7 @@
 import {useEffect, useState, useRef} from "react";
 import Link from "next/link";
 import Image from "next/image";
+import {useRouter, usePathname, useSearchParams} from "next/navigation";
 import {clientFetch} from "@/lib/client-fetch";
 import {Button} from "@/components/ui/button";
 import {Input} from "@/components/ui/input";
@@ -13,12 +14,17 @@ import {PaginationNav} from "@/components/pagination-nav";
 import type {Product} from "@/lib/api/types";
 
 export default function AdminProductsPage() {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const page = parseInt(searchParams.get("page") || "1");
+
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
-  const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [refreshKey, setRefreshKey] = useState(0);
 
   const abortControllerRef = useRef<AbortController | null>(null);
 
@@ -27,12 +33,14 @@ export default function AdminProductsPage() {
       setDebouncedSearch(search);
       // Reset to page 1 when search changes
       if (search !== debouncedSearch && page !== 1) {
-        setPage(1);
+        const params = new URLSearchParams(searchParams.toString());
+        params.delete("page");
+        router.push(`${pathname}?${params.toString()}`);
       }
     }, 300); // wait 300ms after last keystroke
 
     return () => clearTimeout(timer);
-  }, [search, debouncedSearch, page]);
+  }, [search, debouncedSearch, page, pathname, router, searchParams]);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -82,7 +90,7 @@ export default function AdminProductsPage() {
         abortControllerRef.current.abort();
       }
     };
-  }, [debouncedSearch, page]);
+  }, [debouncedSearch, page, refreshKey]);
 
   const handleDelete = async (id: string) => {
     if (!confirm("Are you sure you want to delete this product?")) return;
@@ -94,7 +102,13 @@ export default function AdminProductsPage() {
         return;
       }
       toast.success("Product deleted successfully.");
-      setPage(1);
+      if (page !== 1) {
+        const params = new URLSearchParams(searchParams.toString());
+        params.delete("page");
+        router.push(`${pathname}?${params.toString()}`);
+      } else {
+        setRefreshKey((prev) => prev + 1);
+      }
     } catch (err) {
       toast.error(getErrorMessage(err));
     }

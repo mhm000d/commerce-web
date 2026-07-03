@@ -21,7 +21,7 @@ export default function ProductsPage() {
   const sortBy = searchParams.get("sortBy") || "";
 
   const [products, setProducts] = useState<ProductSummary[]>([]);
-  const [currentPage, setCurrentPage] = useState(pageParam);
+  const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
@@ -89,6 +89,15 @@ export default function ProductsPage() {
     },
     [search, category, sortBy]
   );
+
+  // Reset URL page parameter on mount if pageParam > 1
+  useEffect(() => {
+    if (pageParam > 1) {
+      const params = new URLSearchParams(window.location.search);
+      params.delete("page");
+      router.replace(`/products${params.toString() ? `?${params}` : ""}`, {scroll: false});
+    }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Initial load
   useEffect(() => {
