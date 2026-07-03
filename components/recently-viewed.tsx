@@ -27,7 +27,13 @@ export function RecentlyViewed({ productId }: RecentlyViewedProps) {
         <div className="flex -ml-4 overflow-hidden">
           {[1, 2, 3, 4].map((i) => (
             <div key={i} className="pl-4 basis-40 sm:basis-48 md:basis-52 lg:basis-56 shrink-0">
-              <Skeleton className="h-[330px] sm:h-[350px] w-full" />
+              <div className="flex flex-col bg-white rounded-lg border border-slate-200 overflow-hidden">
+                <Skeleton className="aspect-square w-full rounded-none" />
+                <div className="p-3 sm:p-4 h-[88px] flex flex-col justify-between">
+                  <Skeleton className="h-4 w-3/4" />
+                  <Skeleton className="h-3 w-1/2" />
+                </div>
+              </div>
             </div>
           ))}
         </div>

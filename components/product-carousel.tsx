@@ -81,15 +81,13 @@ export function ProductCarousel({products, title}: ProductCarouselProps) {
                   key={product.id || index}
                   className="pl-4 basis-40 sm:basis-48 md:basis-52 lg:basis-56"
                 >
-                  <div className="h-[330px] sm:h-[350px]">
-                    <ProductCarouselCard
-                      id={product.id}
-                      name={product.name}
-                      price={product.price || 0}
-                      averageRating={product.averageRating}
-                      images={product.images || []}
-                    />
-                  </div>
+                  <ProductCarouselCard
+                    id={product.id}
+                    name={product.name}
+                    price={product.price || 0}
+                    averageRating={product.averageRating}
+                    images={product.images || []}
+                  />
                 </CarouselItem>
               ))}
             </CarouselContent>
