@@ -102,13 +102,7 @@ export default function AdminProductsPage() {
         return;
       }
       toast.success("Product deleted successfully.");
-      if (page !== 1) {
-        const params = new URLSearchParams(searchParams.toString());
-        params.delete("page");
-        router.push(`${pathname}?${params.toString()}`);
-      } else {
-        setRefreshKey((prev) => prev + 1);
-      }
+      setRefreshKey((prev) => prev + 1);
     } catch (err) {
       toast.error(getErrorMessage(err));
     }
