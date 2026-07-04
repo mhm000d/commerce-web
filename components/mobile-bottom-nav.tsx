@@ -76,18 +76,29 @@ export function MobileBottomNav() {
           </Link>
 
           {/* Account */}
-          <button
-            onClick={() => setAccountMenuOpen(true)}
-            className={cn(
-              "flex flex-col items-center justify-center flex-1 h-full gap-0.5 transition-colors",
-              pathname === "/account" ? "text-indigo-600" : "text-slate-500 hover:text-slate-900"
-            )}
-          >
-            <User size={22} />
-            <span className="text-[10px] font-medium">
-              {isAuthenticated ? "Account" : "Sign in"}
-            </span>
-          </button>
+          {isAuthenticated ? (
+            <button
+              onClick={() => setAccountMenuOpen(true)}
+              className={cn(
+                "flex flex-col items-center justify-center flex-1 h-full gap-0.5 transition-colors",
+                pathname === "/account" ? "text-indigo-600" : "text-slate-500 hover:text-slate-900"
+              )}
+            >
+              <User size={22} />
+              <span className="text-[10px] font-medium">Account</span>
+            </button>
+          ) : (
+            <Link
+              href="/login"
+              className={cn(
+                "flex flex-col items-center justify-center flex-1 h-full gap-0.5 transition-colors",
+                pathname === "/login" ? "text-indigo-600" : "text-slate-500 hover:text-slate-900"
+              )}
+            >
+              <User size={22} />
+              <span className="text-[10px] font-medium">Sign in</span>
+            </Link>
+          )}
         </div>
       </nav>
 
@@ -183,19 +194,30 @@ export function MobileBottomNav() {
 //             <span className="text-[10px] font-medium">Cart</span>
 //           </Link>
 //
-//           {/* Account – opens menu modal */}
-//           <button
-//             onClick={() => setAccountMenuOpen(true)}
-//             className={cn(
-//               "flex flex-col items-center justify-center flex-1 h-full gap-0.5 transition-colors",
-//               pathname === "/account" ? "text-indigo-600" : "text-slate-500 hover:text-slate-900"
-//             )}
-//           >
-//             <User size={22} />
-//             <span className="text-[10px] font-medium">
-//               {isAuthenticated ? "Account" : "Sign in"}
-//             </span>
-//           </button>
+//           {/* Account */}
+//           {isAuthenticated ? (
+//             <button
+//               onClick={() => setAccountMenuOpen(true)}
+//               className={cn(
+//                 "flex flex-col items-center justify-center flex-1 h-full gap-0.5 transition-colors",
+//                 pathname === "/account" ? "text-indigo-600" : "text-slate-500 hover:text-slate-900"
+//               )}
+//             >
+//               <User size={22} />
+//               <span className="text-[10px] font-medium">Account</span>
+//             </button>
+//           ) : (
+//             <Link
+//               href="/login"
+//               className={cn(
+//                 "flex flex-col items-center justify-center flex-1 h-full gap-0.5 transition-colors",
+//                 pathname === "/login" ? "text-indigo-600" : "text-slate-500 hover:text-slate-900"
+//               )}
+//             >
+//               <User size={22} />
+//               <span className="text-[10px] font-medium">Sign in</span>
+//             </Link>
+//           )}
 //         </div>
 //       </nav>
 //
