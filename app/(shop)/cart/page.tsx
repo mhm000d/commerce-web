@@ -2,19 +2,29 @@
 
 import { useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useCartStore } from "@/store/cart";
+import { useAuthStore } from "@/store/auth";
 import { CartItem } from "@/components/cart-item";
 import { Button } from "@/components/ui/button";
 import { ShoppingBag, ArrowRight } from "lucide-react";
 
 export default function CartPage() {
+  const router = useRouter();
+  const { status } = useAuthStore();
   const { cart, isLoading, fetchCart, updateItem, removeItem, clearCart } = useCartStore();
 
   useEffect(() => {
-    fetchCart();
-  }, [fetchCart]);
+    if (status === "unauthenticated") {
+      router.push("/login");
+      return;
+    }
+    if (status === "authenticated") {
+      fetchCart();
+    }
+  }, [status, fetchCart, router]);
 
-  if (isLoading) {
+  if (isLoading || status === "loading") {
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">

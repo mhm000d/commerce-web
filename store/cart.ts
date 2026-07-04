@@ -28,8 +28,12 @@ export const useCartStore = create<CartState>((set) => ({
 
   fetchCart: async () => {
     set({ isLoading: true });
-    const cart = await fetchCartData();
-    set({ cart, isLoading: false });
+    try {
+      const cart = await fetchCartData();
+      set({ cart, isLoading: false });
+    } catch (err) {
+      set({ cart: null, isLoading: false });
+    }
   },
 
   addItem: async (productId, quantity) => {
