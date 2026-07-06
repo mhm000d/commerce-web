@@ -28,9 +28,9 @@ export function AccountMenuModal({open, onOpenChange}: AccountMenuModalProps) {
   };
 
   const menuItems = [
-    {label: "My Account", href: "/account", icon: User},
-    {label: "My Orders", href: "/orders", icon: Package},
-    {label: "My Addresses", href: "/addresses", icon: MapPin},
+    {label: "Account", href: "/account", icon: User},
+    {label: "Orders", href: "/orders", icon: Package},
+    {label: "Addresses", href: "/addresses", icon: MapPin},
   ];
 
   return (
@@ -40,7 +40,7 @@ export function AccountMenuModal({open, onOpenChange}: AccountMenuModalProps) {
         <div className="p-4 pb-8">
           <div className="flex items-center justify-between mb-4">
             <DialogTitle className="text-lg font-bold text-slate-900">
-              My Account
+              Account
             </DialogTitle>
             <Button
               variant="ghost"
