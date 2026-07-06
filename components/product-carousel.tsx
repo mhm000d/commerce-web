@@ -61,7 +61,7 @@ export function ProductCarousel({products, title}: ProductCarouselProps) {
 
   return (
     <section className="space-y-4">
-      <h2 className="text-xl sm:text-2xl font-bold text-slate-900">{title}</h2>
+      <h2 className="text-xl sm:text-2xl font-bold text-slate-900 text-center uppercase tracking-wider">{title}</h2>
       <div className="relative group/carousel">
         <div className="overflow-hidden rounded-lg">
           <Carousel
