@@ -121,7 +121,7 @@ export default function ProductDetailPage() {
           </Link>
 
           <h1
-            className="text-3xl lg:text-4xl font-bold text-slate-900 leading-tight line-clamp-2 hover:line-clamp-none transition-all cursor-help"
+            className="text-3xl lg:text-4xl font-bold text-slate-900 leading-tight line-clamp-2 hover:line-clamp-none transition-all cursor-default"
             title={product.name}
           >
             {product.name}

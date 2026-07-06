@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useId } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
@@ -13,11 +13,11 @@ import { SEARCH_PLACEHOLDERS } from "@/constants/search-placeholders";
 // Helper to highlight matching text
 function highlightText(text: string, query: string): React.ReactNode {
   if (!query || !text) return text;
-  const escaped = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-  const regex = new RegExp(`(${escaped})`, 'gi');
-  const parts = text.split(regex);
+  const escaped = query.replace(/[.*+?^${}()|[\\]\\]/g, '\\$&');
+  const parts = text.split(new RegExp(`(${escaped})`, 'i'));
+  const matchRegex = new RegExp(`(${escaped})`, 'i');
   return parts.map((part, i) =>
-    regex.test(part) ? (
+    matchRegex.test(part) ? (
       <strong key={i} className="font-bold">
         {part}
       </strong>
@@ -79,6 +79,7 @@ export function SearchAutocomplete() {
 
   // ── Debounce the query ──
   const debouncedQuery = useDebounce(query, 300);
+  const id = useId();
 
   // ── Fetch results ──
   useEffect(() => {
@@ -103,7 +104,8 @@ export function SearchAutocomplete() {
         const qs = new URLSearchParams();
         qs.set("Page", "1");
         qs.set("PageSize", "6"); // show up to 6 suggestions
-        qs.set("Search", debouncedQuery);
+        // use lowercase `search` to match front-end URLs
+        qs.set("search", debouncedQuery);
 
         const res = await clientFetch(`/api/products?${qs}`, {
           signal: controller.signal,
@@ -148,16 +150,19 @@ export function SearchAutocomplete() {
 
   // ── Keyboard navigation ──
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (!isOpen && results.length === 0) return;
+    // allow Enter to submit a query even if dropdown is closed
+    if (!isOpen && results.length === 0 && !query.trim()) return;
 
     switch (e.key) {
       case "ArrowDown":
         e.preventDefault();
-        setSelectedIndex((prev) => (prev + 1) % results.length);
+        if (results.length === 0) break;
+        setSelectedIndex((prev) => (prev < 0 ? 0 : Math.min(prev + 1, results.length - 1)));
         break;
       case "ArrowUp":
         e.preventDefault();
-        setSelectedIndex((prev) => (prev - 1 + results.length) % results.length);
+        if (results.length === 0) break;
+        setSelectedIndex((prev) => (prev <= 0 ? results.length - 1 : prev - 1));
         break;
       case "Enter": {
         e.preventDefault();
@@ -192,11 +197,16 @@ export function SearchAutocomplete() {
     inputRef.current?.focus();
   };
 
+  // reset selection when results change
+  useEffect(() => {
+    setSelectedIndex(-1);
+  }, [results]);
+
   // Render
   const showDropdown = isOpen && (results.length > 0 || loading);
 
   return (
-    <div ref={containerRef} className="relative flex-1 max-w-xl mx-2 sm:mx-4">
+    <div ref={containerRef} className="relative w-full mx-2 sm:mx-4">
       <div className="relative">
         <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" size={18} />
         <input
@@ -213,7 +223,13 @@ export function SearchAutocomplete() {
           onBlur={() => {
             setIsFocused(false);
           }}
-          className="w-full pl-11 pr-10 py-2.5 text-sm bg-white border-0 rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-300 shadow-sm"
+          className="w-full pl-11 pr-10 py-2.5 text-sm bg-white text-slate-900 border-0 rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-300 shadow-sm"
+          aria-label="Search products"
+          role="combobox"
+          aria-expanded={showDropdown}
+          aria-controls={`${id}-listbox`}
+          aria-autocomplete="list"
+          aria-activedescendant={selectedIndex >= 0 ? `${id}-option-${selectedIndex}` : undefined}
           autoComplete="off"
         />
         {query && (
@@ -239,7 +255,7 @@ export function SearchAutocomplete() {
             <div className="p-4 text-center text-sm text-slate-500">No products found</div>
           ) : (
             <>
-              <ul className="max-h-96 overflow-y-auto divide-y divide-slate-100">
+              <ul id={`${id}-listbox`} role="listbox" className="max-h-96 overflow-y-auto divide-y divide-slate-100">
                 {results.map((product, index) => (
                   <li key={product.id}>
                     <Link
@@ -269,7 +285,12 @@ export function SearchAutocomplete() {
                         </div>
                       )}
                       <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium text-slate-900 truncate">
+                        <p
+                          id={`${id}-option-${index}`}
+                          role="option"
+                          aria-selected={index === selectedIndex}
+                          className="text-sm font-medium text-slate-900 truncate"
+                        >
                           {highlightText(product.name || "", query)}
                         </p>
                       </div>
