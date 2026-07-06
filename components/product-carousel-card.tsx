@@ -95,7 +95,7 @@ export function ProductCarouselCard({
         </div>
 
         {/* Info – grid layout ensures rating stays at bottom */}
-        <div className="grid grid-rows-[1fr_auto] p-3 sm:p-4 h-[88px]">
+        <div className="grid grid-rows-[1fr_auto] p-3 sm:p-4 h-[112px]">
           <div className="flex items-start justify-between gap-2 overflow-hidden min-h-0">
             <h3
               className="text-xs sm:text-sm font-semibold text-slate-900 leading-tight line-clamp-2 group-hover/card:text-indigo-600 transition-colors flex-1 min-w-0">

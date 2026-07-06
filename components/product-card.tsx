@@ -51,7 +51,7 @@ export function ProductCard({ product }: { product: ProductSummary }) {
   return (
     <Link
       href={`/products/${product.id}`}
-      className="group flex flex-col bg-white rounded-lg border border-slate-200 overflow-hidden hover:border-indigo-400 hover:shadow-md transition-all duration-200 relative"
+      className="group flex flex-col bg-white rounded-lg border border-slate-200 overflow-hidden hover:border-indigo-400 hover:shadow-md transition-all duration-200 relative h-full"
       onMouseEnter={() => {
         if (secondaryImage) setCurrentImage(secondaryImage);
       }}
@@ -88,7 +88,9 @@ export function ProductCard({ product }: { product: ProductSummary }) {
             ${product.price?.toFixed(2)}
           </span>
         </div>
-        <RatingStars average={product.averageRating} />
+        <div className="mt-auto pt-1">
+          <RatingStars average={product.averageRating} />
+        </div>
       </div>
 
       {/* Add to Cart button – appears on hover */}
