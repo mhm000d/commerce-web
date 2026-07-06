@@ -8,17 +8,7 @@ import {
   DialogContent,
   DialogTitle,
 } from "@/components/ui/dialog";
-
-const CATEGORIES = [
-  {value: "", label: "All"},
-  {value: "Home", label: "Home"},
-  {value: "Mobiles", label: "Mobiles"},
-  {value: "Laptops", label: "Laptops"},
-  {value: "Televisions", label: "Televisions"},
-  {value: "Games", label: "Games"},
-  {value: "Appliances", label: "Appliances"},
-  {value: "Electronics", label: "Electronics"},
-];
+import { CATEGORIES } from "@/constants/categories";
 
 interface CategoriesModalProps {
   open: boolean;

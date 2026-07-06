@@ -8,8 +8,9 @@ import { Search, Loader2, X } from "lucide-react";
 import { clientFetch } from "@/lib/client-fetch";
 import { useDebounce } from "@/hooks/use-debounce";
 import type { ProductSummary } from "@/lib/api/types";
+import { SEARCH_PLACEHOLDERS } from "@/constants/search-placeholders";
 
-// Helper to highlight matching text (optional but nice)
+// Helper to highlight matching text
 function highlightText(text: string, query: string): React.ReactNode {
   if (!query || !text) return text;
   const escaped = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -17,7 +18,7 @@ function highlightText(text: string, query: string): React.ReactNode {
   const parts = text.split(regex);
   return parts.map((part, i) =>
     regex.test(part) ? (
-      <strong key={i} className="bg-yellow-200/50 text-inherit">
+      <strong key={i} className="font-bold">
         {part}
       </strong>
     ) : (
@@ -37,6 +38,44 @@ export function SearchAutocomplete() {
   const inputRef = useRef<HTMLInputElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const abortControllerRef = useRef<AbortController | null>(null);
+  
+  const [placeholder, setPlaceholder] = useState("");
+  const [currentPhraseIndex, setCurrentPhraseIndex] = useState(0);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
+
+  useEffect(() => {
+    if (isFocused) return;
+
+    let timer: NodeJS.Timeout;
+    const currentPhrase = SEARCH_PLACEHOLDERS[currentPhraseIndex];
+
+    if (!isDeleting) {
+      if (placeholder.length < currentPhrase.length) {
+        timer = setTimeout(() => {
+          setPlaceholder(currentPhrase.substring(0, placeholder.length + 1));
+        }, 80);
+      } else {
+        timer = setTimeout(() => {
+          setIsDeleting(true);
+        }, 1500);
+      }
+    } else {
+      if (placeholder.length > 0) {
+        timer = setTimeout(() => {
+          setPlaceholder(currentPhrase.substring(0, placeholder.length - 1));
+        }, 40);
+      } else {
+        // Wrap setState calls in setTimeout to avoid cascading renders warning
+        timer = setTimeout(() => {
+          setIsDeleting(false);
+          setCurrentPhraseIndex((prev) => (prev + 1) % SEARCH_PLACEHOLDERS.length);
+        }, 500); // 500ms pause before starting typing the next phrase
+      }
+    }
+
+    return () => clearTimeout(timer);
+  }, [placeholder, isDeleting, currentPhraseIndex, isFocused]);
 
   // ── Debounce the query ──
   const debouncedQuery = useDebounce(query, 300);
@@ -153,22 +192,26 @@ export function SearchAutocomplete() {
     inputRef.current?.focus();
   };
 
-  // ── Render ──
+  // Render
   const showDropdown = isOpen && (results.length > 0 || loading);
 
   return (
-    <div ref={containerRef} className="relative flex-1 max-w-md mx-2 sm:mx-4">
+    <div ref={containerRef} className="relative flex-1 max-w-xl mx-2 sm:mx-4">
       <div className="relative">
         <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" size={18} />
         <input
           ref={inputRef}
           type="text"
-          placeholder="Search Commerce..."
+          placeholder={isFocused ? "Search Commerce..." : placeholder}
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           onKeyDown={handleKeyDown}
           onFocus={() => {
+            setIsFocused(true);
             if (results.length > 0) setIsOpen(true);
+          }}
+          onBlur={() => {
+            setIsFocused(false);
           }}
           className="w-full pl-11 pr-10 py-2.5 text-sm bg-white border-0 rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-300 shadow-sm"
           autoComplete="off"
@@ -228,9 +271,6 @@ export function SearchAutocomplete() {
                       <div className="flex-1 min-w-0">
                         <p className="text-sm font-medium text-slate-900 truncate">
                           {highlightText(product.name || "", query)}
-                        </p>
-                        <p className="text-sm font-bold text-slate-900 tabular-nums">
-                          ${(product.price || 0).toFixed(2)}
                         </p>
                       </div>
                     </Link>

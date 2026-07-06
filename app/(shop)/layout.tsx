@@ -5,17 +5,7 @@ import { AuthNav } from "@/components/auth-nav";
 import { MobileBottomNav } from "@/components/mobile-bottom-nav";
 import { useHideOnScroll } from "@/hooks/use-hide-on-scroll";
 import {SearchAutocomplete} from "@/components/search-autocomplete";
-
-const CATEGORIES = [
-  { value: "", label: "All" },
-  { value: "Home", label: "Home" },
-  { value: "Mobiles", label: "Mobiles" },
-  { value: "Laptops", label: "Laptops" },
-  { value: "Televisions", label: "Televisions" },
-  { value: "Games", label: "Games" },
-  { value: "Appliances", label: "Appliances" },
-  { value: "Electronics", label: "Electronics" },
-];
+import { CATEGORIES } from "@/constants/categories";
 
 export default function ShopLayout({ children }: { children: React.ReactNode }) {
   const showHeader = useHideOnScroll({ threshold: 80 });

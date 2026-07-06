@@ -31,7 +31,7 @@ export const useCartStore = create<CartState>((set) => ({
     try {
       const cart = await fetchCartData();
       set({ cart, isLoading: false });
-    } catch (err) {
+    } catch {
       set({ cart: null, isLoading: false });
     }
   },
