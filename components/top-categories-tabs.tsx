@@ -31,9 +31,8 @@ export function TopCategoriesTabs({ mobiles, laptops, tvs, games }: TopCategorie
       <div className="flex flex-col items-center text-center space-y-4">
         <div>
           <h2 className="text-xl sm:text-2xl font-bold text-slate-900 uppercase tracking-wider">Our Top Seen</h2>
-          <p className="text-xs text-slate-500 mt-1">Discover what's trending across our major categories</p>
+          <p className="text-xs text-slate-500 mt-1">Discover what is trending across our major categories</p>
         </div>
-        
         {/* Simple text tabs aligned in the center (responsive layout) */}
         <div className="flex items-center justify-center gap-4 sm:gap-8 border-b border-slate-100 pb-2 w-full flex-wrap">
           {tabs.map((tab) => (

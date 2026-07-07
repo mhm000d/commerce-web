@@ -60,7 +60,7 @@ export function ProductCarousel({products, title}: ProductCarouselProps) {
   if (validProducts.length === 0) return null;
 
   return (
-    <section className="space-y-4">
+    <section role="region" aria-label={title} className="space-y-4">
       <h2 className="text-xl sm:text-2xl font-bold text-slate-900 text-center uppercase tracking-wider">{title}</h2>
       <div className="relative group/carousel">
         <div className="overflow-hidden rounded-lg">

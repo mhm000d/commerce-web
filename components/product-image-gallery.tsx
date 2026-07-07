@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { ProductImage } from "@/lib/api/types";
+import { getBlurDataURL } from "@/lib/placeholder";
 
 interface Props {
   images: ProductImage[];
@@ -31,7 +32,7 @@ function GalleryImage({
         <div className="absolute inset-0 animate-pulse rounded-inherit bg-slate-100" />
       )}
 
-      {hasError ? (
+        {hasError ? (
         <div className="absolute inset-0 flex items-center justify-center rounded-inherit bg-slate-100 text-center text-sm text-slate-400">
           Image unavailable
         </div>
@@ -40,11 +41,14 @@ function GalleryImage({
           src={src}
           alt={alt}
           fill
-          className={`${className} ${isLoaded ? "opacity-100" : "opacity-0"}`}
+            className={`${className} ${isLoaded ? "opacity-100" : "opacity-0"}`}
           sizes="(max-width: 1024px) 100vw, 50vw"
           priority={priority}
-          onLoad={() => setIsLoaded(true)}
-          onError={() => setHasError(true)}
+            onLoad={() => setIsLoaded(true)}
+            onError={() => setHasError(true)}
+            loading={priority ? "eager" : "lazy"}
+            placeholder="blur"
+            blurDataURL={getBlurDataURL(src)}
         />
       )}
     </div>
@@ -144,6 +148,8 @@ export function ProductImageGallery({ images, name }: Props) {
                       fill
                       className="object-contain"
                       sizes="320px"
+                      placeholder="blur"
+                      blurDataURL={getBlurDataURL(active.imageUrl ?? "")}
                       style={{
                         transform: "scale(2.3)",
                         transformOrigin: `${mousePosition.x}% ${mousePosition.y}%`,

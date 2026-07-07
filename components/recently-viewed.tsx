@@ -6,6 +6,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { RatingStars } from "@/components/rating-stars";
 import Image from "next/image";
 import Link from "next/link";
+import type { ProductImage } from "@/lib/api/types";
 import {
   Carousel,
   CarouselContent,
@@ -61,7 +62,7 @@ export function ProductRectangularCard({
   name: string;
   price: number;
   averageRating?: number | null;
-  images?: any[];
+  images?: ProductImage[];
 }) {
   const primaryImage = images.find((img) => img.isPrimary) ?? images[0];
   const imageUrl = primaryImage?.imageUrl ?? null;
@@ -83,14 +84,19 @@ export function ProductRectangularCard({
             <div className="w-full h-full bg-slate-100" />
           )}
         </div>
-        <div className="flex flex-col justify-between py-1 flex-1 min-w-0 text-left">
-          <div className="space-y-0.5">
+        <div className="flex-1 min-w-0 grid grid-rows-[auto_auto] text-left">
+          <div className="flex flex-col justify-end min-h-[3rem]">
             <h3 className="text-xs sm:text-sm font-bold text-slate-800 line-clamp-2 leading-snug">
               {name}
             </h3>
-            <RatingStars average={averageRating} />
+            <div className="mt-2">
+              <RatingStars average={averageRating} />
+            </div>
           </div>
-          <span className="text-sm font-extrabold text-indigo-600">${price.toFixed(2)}</span>
+
+          <div className="text-xs sm:text-sm font-semibold text-slate-900 tabular-nums self-end">
+            ${price.toFixed(2)}
+          </div>
         </div>
       </div>
     </Link>

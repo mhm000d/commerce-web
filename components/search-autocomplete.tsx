@@ -91,6 +91,7 @@ export function SearchAutocomplete() {
 
       if (!debouncedQuery.trim()) {
         setResults([]);
+        setSelectedIndex(-1);
         setIsOpen(false);
         setLoading(false);
         return;
@@ -113,16 +114,19 @@ export function SearchAutocomplete() {
 
         if (!res.ok) {
           setResults([]);
+          setSelectedIndex(-1);
           setLoading(false);
           return;
         }
 
         const data = await res.json();
         setResults(data.data || []);
+        setSelectedIndex(-1);
         setIsOpen(true);
       } catch (err) {
         if (err instanceof Error && err.name === "AbortError") return;
         setResults([]);
+        setSelectedIndex(-1);
       } finally {
         setLoading(false);
       }
@@ -196,11 +200,6 @@ export function SearchAutocomplete() {
     setSelectedIndex(-1);
     inputRef.current?.focus();
   };
-
-  // reset selection when results change
-  useEffect(() => {
-    setSelectedIndex(-1);
-  }, [results]);
 
   // Render
   const showDropdown = isOpen && (results.length > 0 || loading);

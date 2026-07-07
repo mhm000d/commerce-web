@@ -12,6 +12,8 @@ import {useAuthStore} from "@/store/auth";
 import {toast} from "sonner";
 import type {ProductImage} from "@/lib/api/types";
 
+import { getBlurDataURL } from "@/lib/placeholder";
+
 interface ProductCarouselCardProps {
   id: string;
   name: string;
@@ -31,6 +33,7 @@ export function ProductCarouselCard({
   const {status} = useAuthStore();
   const {addItem} = useCartStore();
   const [loading, setLoading] = useState(false);
+  const [hasImgError, setHasImgError] = useState(false);
   const [isAdded, setIsAdded] = useState(false);
 
   const primaryImage = images.find((img) => img.isPrimary) ?? images[0];
@@ -76,22 +79,24 @@ export function ProductCarouselCard({
       <div
         className="h-full flex flex-col bg-white rounded-lg border border-slate-200 overflow-hidden hover:border-indigo-400 hover:shadow-md transition-all duration-200">
         <div className="relative w-full aspect-square bg-slate-100 overflow-hidden shrink-0">
-          {imageUrl ? (
-            <Image
-              src={imageUrl}
-              alt={name}
-              fill
-              unoptimized
-              className="object-cover transition-transform duration-300 group-hover/card:scale-105"
-              sizes="(max-width: 640px) 160px, (max-width: 768px) 192px, 224px"
-              priority={false}
-              onError={(e) => {
-                e.currentTarget.src = "/placeholder.png";
-              }}
-            />
-          ) : (
-            <Skeleton className="w-full h-full"/>
-          )}
+            {imageUrl && !hasImgError ? (
+              <Image
+                src={imageUrl}
+                alt={name}
+                fill
+                className="object-cover transition-transform duration-300 group-hover/card:scale-105"
+                sizes="(max-width: 640px) 160px, (max-width: 768px) 192px, 224px"
+                priority={false}
+                loading="lazy"
+                placeholder="blur"
+                blurDataURL={getBlurDataURL(imageUrl ?? "")}
+                onError={() => setHasImgError(true)}
+              />
+            ) : (
+              <div className="w-full h-full">
+                <Skeleton className="w-full h-full"/>
+              </div>
+            )}
         </div>
 
         {/* Info – grid layout ensures rating stays at bottom */}

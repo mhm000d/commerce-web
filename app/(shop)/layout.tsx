@@ -6,7 +6,6 @@ import { MobileBottomNav } from "@/components/mobile-bottom-nav";
 import { useHideOnScroll } from "@/hooks/use-hide-on-scroll";
 import {SearchAutocomplete} from "@/components/search-autocomplete";
 import { CATEGORIES } from "@/constants/categories";
-import { Truck, ShieldCheck, RotateCcw, Headphones } from "lucide-react";
 
 export default function ShopLayout({ children }: { children: React.ReactNode }) {
   const showHeader = useHideOnScroll({ threshold: 80 });

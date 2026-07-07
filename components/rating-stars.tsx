@@ -1,9 +1,11 @@
 import {Star} from "lucide-react";
 
 export function RatingStars({ average }: { average: number | null | undefined }) {
-  if (!average) {
-    return <span className="text-xs text-slate-400">No reviews yet</span>;
-  }
+  // Hide the entire rating area when there are no reviews.
+  if (average == null) return null;
+
+  const rounded = Math.round(average);
+
   return (
     <div className="flex items-center gap-1.5">
       <div className="flex items-center gap-0.5">
@@ -12,9 +14,7 @@ export function RatingStars({ average }: { average: number | null | undefined })
             key={i}
             size={12}
             className={
-              i <= Math.round(average)
-                ? "fill-amber-400 text-amber-400"
-                : "fill-slate-200 text-slate-200"
+              i <= rounded ? "fill-amber-400 text-amber-400" : "fill-slate-200 text-slate-200"
             }
           />
         ))}

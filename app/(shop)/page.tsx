@@ -1,11 +1,12 @@
 import { listProducts } from "@/lib/api/products";
+import type { ProductSummary } from "@/lib/api/types";
 import { ProductCarousel } from "@/components/product-carousel";
 import { RecentlyViewed } from "@/components/recently-viewed";
 import { TopCategoriesTabs } from "@/components/top-categories-tabs";
 
 export default async function HomePage() {
   // 1. Fetch Best Sellers (highest rated products)
-  let bestSellers: any[] = [];
+  let bestSellers: ProductSummary[] = [];
   try {
     const res = await listProducts({
       sortBy: "rating",
@@ -18,10 +19,10 @@ export default async function HomePage() {
   }
 
   // 2. Fetch Top Seen Categories
-  let mobiles: any[] = [];
-  let laptops: any[] = [];
-  let tvs: any[] = [];
-  let games: any[] = [];
+  let mobiles: ProductSummary[] = [];
+  let laptops: ProductSummary[] = [];
+  let tvs: ProductSummary[] = [];
+  let games: ProductSummary[] = [];
   try {
     const [mobilesRes, laptopsRes, tvsRes, gamesRes] = await Promise.all([
       listProducts({ category: "Mobiles", page: 1, pageSize: 8 }),
@@ -38,7 +39,7 @@ export default async function HomePage() {
   }
 
   // 3. Fetch Commerce Recommendations (mixed categories)
-  let recommendations: any[] = [];
+  let recommendations: ProductSummary[] = [];
   try {
     const res = await listProducts({
       page: 1,

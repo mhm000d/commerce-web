@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Compass, ShoppingBag, ArrowLeft, Heart, User, ShoppingCart } from "lucide-react";
+import { Compass, ShoppingBag } from "lucide-react";
 
 export default function NotFound() {
   return (
@@ -26,7 +26,7 @@ export default function NotFound() {
               Page Not Found
             </h2>
             <p className="text-slate-500 text-sm max-w-sm mx-auto">
-              We couldn't find the page you're looking for. It might have been moved, deleted, or never existed.
+              We could not find the page you are looking for. It might have been moved, deleted, or never existed.
             </p>
           </div>
 
