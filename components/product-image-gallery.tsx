@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { ProductImage } from "@/lib/api/types";
 import { getBlurDataURL } from "@/lib/placeholder";
+import { useMediaQuery } from "@/hooks/use-media-query";
 
 interface Props {
   images: ProductImage[];
@@ -62,6 +63,7 @@ export function ProductImageGallery({ images, name }: Props) {
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
   const [showZoomPreview, setShowZoomPreview] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const isDesktop = useMediaQuery("(min-width: 768px)");
 
   useEffect(() => {
     if (!isLightboxOpen) return;
@@ -106,6 +108,7 @@ export function ProductImageGallery({ images, name }: Props) {
           <div
             className="relative h-full w-full"
             onMouseMove={(event) => {
+              if (!isDesktop) return;
               const rect = event.currentTarget.getBoundingClientRect();
               setMousePosition({
                 x: ((event.clientX - rect.left) / rect.width) * 100,
@@ -113,9 +116,11 @@ export function ProductImageGallery({ images, name }: Props) {
               });
               setShowZoomPreview(true);
             }}
-            onMouseEnter={() => setShowZoomPreview(true)}
+            onMouseEnter={() => {
+              if (isDesktop) setShowZoomPreview(true);
+            }}
             onMouseLeave={() => setShowZoomPreview(false)}
-            onTouchStart={() => setShowZoomPreview(true)}
+            onTouchStart={() => setShowZoomPreview(false)}
             onTouchEnd={() => setShowZoomPreview(false)}
           >
             <button
@@ -131,7 +136,7 @@ export function ProductImageGallery({ images, name }: Props) {
               />
             </button>
 
-            {showZoomPreview && (
+            {isDesktop && showZoomPreview && (
               <>
                 <div
                   className="pointer-events-none absolute z-10 h-20 w-20 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-white shadow-[0_0_0_1px_rgba(15,23,42,0.2)]"

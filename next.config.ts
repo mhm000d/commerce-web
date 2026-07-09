@@ -27,6 +27,10 @@ const nextConfig: NextConfig = {
     formats: ["image/avif", "image/webp"],
   },
   async headers() {
+    if (process.env.NODE_ENV === "development") {
+      return [];
+    }
+
     return [
       {
         source: '/_next/image(.*)',

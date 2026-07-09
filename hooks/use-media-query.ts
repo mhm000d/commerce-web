@@ -1,21 +1,17 @@
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
 
 export function useMediaQuery(query: string): boolean {
+  return useSyncExternalStore(
+    (onStoreChange) => {
+      const media = window.matchMedia(query);
 
-  const [matches, setMatches] = useState(() => {
-    if (typeof window === "undefined") return false;
-    return window.matchMedia(query).matches;
-  });
+      media.addEventListener("change", onStoreChange);
 
-  useEffect(() => {
-    const media = window.matchMedia(query);
-
-    // Listener that updates state only when the match status changes
-    const listener = (e: MediaQueryListEvent) => setMatches(e.matches);
-    media.addEventListener("change", listener);
-
-    return () => media.removeEventListener("change", listener);
-  }, [query]);
-
-  return matches;
+      return () => {
+        media.removeEventListener("change", onStoreChange);
+      };
+    },
+    () => window.matchMedia(query).matches,
+    () => false
+  );
 }
