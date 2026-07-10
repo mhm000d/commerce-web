@@ -205,7 +205,7 @@ export function SearchAutocomplete() {
   const showDropdown = isOpen && (results.length > 0 || loading);
 
   return (
-    <div ref={containerRef} className="relative w-full mx-2 sm:mx-4">
+    <div ref={containerRef} className="relative w-full">
       <div className="relative">
         <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" size={18} />
         <input

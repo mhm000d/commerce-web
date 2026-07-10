@@ -2,10 +2,10 @@
 
 import Link from "next/link";
 import { AuthNav } from "@/components/auth-nav";
-import { MobileBottomNav } from "@/components/mobile-bottom-nav";
 import { useHideOnScroll } from "@/hooks/use-hide-on-scroll";
-import {SearchAutocomplete} from "@/components/search-autocomplete";
+import { SearchAutocomplete } from "@/components/search-autocomplete";
 import { CATEGORIES } from "@/constants/categories";
+import { MobileHeader } from "@/components/MobileHeader";
 
 export default function ShopLayout({ children }: { children: React.ReactNode }) {
   const showHeader = useHideOnScroll({ threshold: 80 });
@@ -21,12 +21,8 @@ export default function ShopLayout({ children }: { children: React.ReactNode }) 
       >
         <div className="w-full bg-indigo-700 text-white rounded-b-2xl shadow-md border-b border-white/10">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            {/* ─── Mobile: only search ─── */}
-            <div className="flex items-center py-3 md:hidden">
-              <div className="w-full px-0">
-                <SearchAutocomplete />
-              </div>
-            </div>
+            {/* ─── Mobile ─── */}
+            <MobileHeader />
 
             {/* ─── Desktop: full header ─── */}
             <div className="hidden lg:flex items-center py-3">
@@ -76,11 +72,9 @@ export default function ShopLayout({ children }: { children: React.ReactNode }) 
         </div>
       </header>
 
-      <main className="flex-1 pb-20 md:pb-0 pt-28 md:pt-32 lg:pt-36">
+      <main className="flex-1 pt-32 md:pt-32 lg:pt-36">
         {children}
       </main>
-
-      <MobileBottomNav />
 
       <footer className="mt-24 w-full bg-indigo-700 text-white rounded-t-3xl">
         <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 py-12 pb-16 md:pb-12">
