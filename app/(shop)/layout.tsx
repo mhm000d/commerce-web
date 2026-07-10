@@ -33,7 +33,7 @@ export default function ShopLayout({ children }: { children: React.ReactNode }) 
               </div>
 
               <div className="flex-1 flex justify-center min-w-0">
-                <div className="w-full max-w-[38rem] ml-2">
+                <div className="w-full max-w-[38rem] ml-9">
                   <SearchAutocomplete />
                 </div>
               </div>
