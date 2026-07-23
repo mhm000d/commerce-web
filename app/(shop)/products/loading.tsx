@@ -7,10 +7,13 @@ export function ProductsGridSkeleton() {
           className="flex flex-col bg-white rounded-lg border border-slate-200 overflow-hidden animate-pulse"
         >
           <div className="aspect-square bg-slate-100" />
-          <div className="p-4 flex flex-col gap-3">
-            <div className="h-4 bg-slate-100 rounded w-3/4" />
-            <div className="h-3 bg-slate-100 rounded w-1/2" />
-            <div className="h-5 bg-slate-100 rounded w-1/4 mt-auto" />
+          <div className="p-4 flex flex-col gap-1.5 flex-1">
+            <div className="space-y-1.5 h-10">
+              <div className="h-4 bg-slate-200 rounded w-3/4" />
+              <div className="h-4 bg-slate-200 rounded w-1/2" />
+            </div>
+            <div className="h-4 bg-slate-200 rounded w-1/4" />
+            <div className="h-3 bg-slate-200 rounded w-1/3 mt-auto pt-2" />
           </div>
         </div>
       ))}
