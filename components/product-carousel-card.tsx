@@ -99,18 +99,16 @@ export function ProductCarouselCard({
             )}
         </div>
 
-        {/* Info – grid layout ensures rating stays at bottom */}
-        <div className="grid grid-rows-[1fr_auto] p-3 sm:p-4 h-[112px]">
-          <div className="flex items-start justify-between gap-2 overflow-hidden min-h-0">
-            <h3
-              className="text-xs sm:text-sm font-semibold text-slate-900 leading-tight line-clamp-2 group-hover/card:text-indigo-600 transition-colors flex-1 min-w-0">
-              {name}
-            </h3>
-            <span className="text-xs sm:text-sm font-bold text-slate-900 tabular-nums shrink-0 whitespace-nowrap">
-              ${price.toFixed(2)}
-            </span>
-          </div>
-          <div className="pt-1">
+        {/* Info – flex layout with reserved heights prevents overlap */}
+        <div className="flex-1 flex flex-col p-3 sm:p-4 gap-1.5">
+          <h3
+            className="text-xs sm:text-sm font-semibold text-slate-900 leading-normal line-clamp-2 group-hover/card:text-indigo-600 transition-colors h-9 sm:h-10 shrink-0">
+            {name}
+          </h3>
+          <span className="text-xs sm:text-sm font-bold text-slate-900 tabular-nums shrink-0">
+            ${price.toFixed(2)}
+          </span>
+          <div className="mt-auto pr-10 shrink-0">
             <RatingStars average={averageRating}/>
           </div>
         </div>

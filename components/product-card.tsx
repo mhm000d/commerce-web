@@ -79,16 +79,14 @@ export function ProductCard({ product }: { product: ProductSummary }) {
         )}
       </div>
 
-      <div className="flex flex-col gap-2 p-4 flex-1">
-        <div className="flex items-start justify-between gap-2">
-          <h3 className="text-sm font-semibold text-slate-900 leading-tight line-clamp-2 group-hover:text-indigo-600 transition-colors">
-            {product.name}
-          </h3>
-          <span className="text-sm font-bold text-slate-900 tabular-nums shrink-0">
-            ${product.price?.toFixed(2)}
-          </span>
-        </div>
-        <div className="mt-auto pt-1">
+      <div className="flex flex-col p-4 flex-1 gap-1.5">
+        <h3 className="text-sm font-semibold text-slate-900 leading-normal line-clamp-2 group-hover:text-indigo-600 transition-colors h-10 shrink-0">
+          {product.name}
+        </h3>
+        <span className="text-sm font-bold text-slate-900 tabular-nums shrink-0">
+          ${product.price?.toFixed(2)}
+        </span>
+        <div className="mt-auto pr-10 shrink-0">
           <RatingStars average={product.averageRating} />
         </div>
       </div>

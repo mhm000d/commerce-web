@@ -76,8 +76,8 @@ export default function ShopLayout({ children }: { children: React.ReactNode }) 
         {children}
       </main>
 
-      <footer className="mt-24 w-full bg-indigo-700 text-white rounded-t-3xl">
-        <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 py-12 pb-16 md:pb-12">
+      <footer className="mt-16 w-full bg-indigo-700 text-white rounded-t-3xl">
+        <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-12 md:pb-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* Column 1: Company Info */}
             <div className="space-y-4">

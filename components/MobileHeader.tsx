@@ -11,6 +11,17 @@ import {
   User,
   LogOut,
   Grid3x3,
+  Package,
+  MapPin,
+  LayoutDashboard,
+  ShoppingBag,
+  Home as HomeIcon,
+  Smartphone,
+  Laptop,
+  Tv,
+  Gamepad2,
+  Plug,
+  Cpu,
 } from "lucide-react";
 import {
   Sheet,
@@ -29,6 +40,17 @@ import { useAuthStore } from "@/store/auth";
 import { useCartStore } from "@/store/cart";
 
 import { SearchAutocomplete } from "@/components/search-autocomplete";
+
+const CATEGORY_ICONS: Record<string, React.ComponentType<{ size?: number }>> = {
+  "": ShoppingBag,
+  "Home": HomeIcon,
+  "Mobiles": Smartphone,
+  "Laptops": Laptop,
+  "Televisions": Tv,
+  "Games": Gamepad2,
+  "Appliances": Plug,
+  "Electronics": Cpu,
+};
 
 export function MobileHeader() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -132,13 +154,16 @@ export function MobileHeader() {
                       const href = `/products${qs.toString() ? `?${qs}` : ""
                         }`;
 
+                      const IconComponent = CATEGORY_ICONS[cat.value] || ShoppingBag;
+
                       return (
                         <Link
                           key={cat.value}
                           href={href}
                           onClick={closeMenu}
-                          className="block rounded-lg px-3 py-2 text-sm text-slate-600 hover:bg-slate-100"
+                          className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-slate-600 hover:bg-slate-100"
                         >
+                          <IconComponent size={16} />
                           {cat.label}
                         </Link>
                       );
@@ -173,24 +198,27 @@ export function MobileHeader() {
                       <Link
                         href="/account"
                         onClick={closeMenu}
-                        className="block rounded-lg px-3 py-2 text-sm text-slate-600 hover:bg-slate-100"
+                        className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-slate-600 hover:bg-slate-100"
                       >
-                        Profile
+                        <User size={18} />
+                        Account
                       </Link>
 
                       <Link
                         href="/orders"
                         onClick={closeMenu}
-                        className="block rounded-lg px-3 py-2 text-sm text-slate-600 hover:bg-slate-100"
+                        className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-slate-600 hover:bg-slate-100"
                       >
+                        <Package size={18} />
                         Orders
                       </Link>
 
                       <Link
                         href="/addresses"
                         onClick={closeMenu}
-                        className="block rounded-lg px-3 py-2 text-sm text-slate-600 hover:bg-slate-100"
+                        className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-slate-600 hover:bg-slate-100"
                       >
+                        <MapPin size={18} />
                         Addresses
                       </Link>
 
@@ -198,8 +226,9 @@ export function MobileHeader() {
                         <Link
                           href="/admin/dashboard"
                           onClick={closeMenu}
-                          className="block rounded-lg px-3 py-2 text-sm text-slate-600 hover:bg-slate-100"
+                          className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-slate-600 hover:bg-slate-100"
                         >
+                          <LayoutDashboard size={18} />
                           Admin Panel
                         </Link>
                       )}
