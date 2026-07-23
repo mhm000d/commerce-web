@@ -18,8 +18,10 @@ A modern, responsive e‑commerce frontend built with Next.js, React, and Tailwi
 - **📋 Address Management** – Create, edit, delete addresses with a max of 5, unique default, and zero‑default protection.
 - **👤 User Account** – Profile editing, password change, and order history.
 - **🛠️ Admin Panel** – Product CRUD with image upload (during creation), order management with status updates.
-- **📱 Mobile‑First** – Responsive design with bottom navigation, search‑first header, and persistent bottom bar.
-- **🎨 UI Consistency** – Indigo brand colours, toast notifications, breadcrumbs, rating stars, and loading skeletons.
+- **🎨 UI Consistency** – Indigo brand colours, toast notifications, breadcrumbs, rating stars, loading skeletons, and premium product cards with aligned pricing/ratings and reserved title heights to prevent layout overlaps.
+- **📱 Mobile‑First** – Responsive design with bottom navigation, search‑first header, and a full-featured mobile menu drawer displaying icons for categories and account options.
+- **🔌 Transparent API Versioning & Proxy** – Transparent version prefixing (e.g., `/v1`) in the Next.js API BFF proxy and server-side fetch wrappers controlled dynamically via environment configurations.
+- **✨ OpenAPI Type-Safety** – Automated client type generation from Swagger endpoints utilizing `openapi-typescript` and `openapi-fetch`.
 
 ---
 
@@ -32,7 +34,8 @@ A modern, responsive e‑commerce frontend built with Next.js, React, and Tailwi
 | **State Management** | [Zustand](https://zustand-demo.pmnd.rs/) + [TanStack Query v5](https://tanstack.com/query/latest) |
 | **Styling** | [Tailwind CSS 4](https://tailwindcss.com/) + [shadcn/ui](https://ui.shadcn.com/) |
 | **Type Safety** | [TypeScript 5](https://www.typescriptlang.org/) |
-| **HTTP Client** | Native `fetch` with `clientFetch` wrapper |
+| **HTTP Client** | Native `fetch` with `clientFetch` wrapper, using [openapi-fetch](https://openapi-ts.pages.dev/openapi-fetch/) |
+| **Codegen** | [openapi-typescript](https://openapi-ts.pages.dev/openapi-typescript/) |
 | **Payments** | [Stripe](https://stripe.com/) (Embedded Checkout) |
 | **Icons** | [Lucide React](https://lucide.dev/) |
 | **Package Manager** | `pnpm` |
@@ -58,7 +61,7 @@ commerce-web/
 ├── lib/                   # API client and utilities
 │   └── api/               # Backend API services
 ├── store/                 # Zustand state management
-├── types/                 # TypeScript type definitions
+├── types/                 # TypeScript type definitions (api.ts generated from Swagger)
 └── ...                    # Config files (next.config.ts, etc.)
 ```
 
@@ -85,9 +88,16 @@ pnpm install
 ```bash
 cp .env.example .env
 ```
-### 4. Run the development server
+Ensure you set the API configurations (e.g. `API_VERSION=v1` and `NEXT_PUBLIC_API_VERSION=v1`).
+
+### 4. Code Generation (OpenAPI Types)
+To generate the latest TypeScript types from your local running backend Swagger schema:
+```bash
+pnpm openapi:generate
+```
+
+### 5. Run the development server
 ```bash
 pnpm dev
 ```
 Open http://localhost:3000 in your browser.
-
