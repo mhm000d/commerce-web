@@ -4,7 +4,7 @@
  */
 
 export interface paths {
-    "/api/account/profile": {
+    "/api/v1/account/profile": {
         parameters: {
             query?: never;
             header?: never;
@@ -101,7 +101,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/account/change-password": {
+    "/api/v1/account/change-password": {
         parameters: {
             query?: never;
             header?: never;
@@ -162,7 +162,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/addresses": {
+    "/api/v1/addresses": {
         parameters: {
             query?: never;
             header?: never;
@@ -259,7 +259,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/addresses/{id}": {
+    "/api/v1/addresses/{id}": {
         parameters: {
             query?: never;
             header?: never;
@@ -378,7 +378,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/admin/orders/{id}": {
+    "/api/v1/admin/orders/{id}": {
         parameters: {
             query?: never;
             header?: never;
@@ -450,7 +450,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/admin/orders": {
+    "/api/v1/admin/orders": {
         parameters: {
             query?: never;
             header?: never;
@@ -512,7 +512,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/admin/orders/{id}/status": {
+    "/api/v1/admin/orders/{id}/status": {
         parameters: {
             query?: never;
             header?: never;
@@ -601,7 +601,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/auth/register": {
+    "/api/v1/auth/register": {
         parameters: {
             query?: never;
             header?: never;
@@ -677,7 +677,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/auth/login": {
+    "/api/v1/auth/login": {
         parameters: {
             query?: never;
             header?: never;
@@ -753,7 +753,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/auth/refresh": {
+    "/api/v1/auth/refresh": {
         parameters: {
             query?: never;
             header?: never;
@@ -829,7 +829,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/auth/logout": {
+    "/api/v1/auth/logout": {
         parameters: {
             query?: never;
             header?: never;
@@ -879,7 +879,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/auth/logout-all": {
+    "/api/v1/auth/logout-all": {
         parameters: {
             query?: never;
             header?: never;
@@ -923,7 +923,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/auth/forgot-password": {
+    "/api/v1/auth/forgot-password": {
         parameters: {
             query?: never;
             header?: never;
@@ -984,7 +984,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/auth/reset-password": {
+    "/api/v1/auth/reset-password": {
         parameters: {
             query?: never;
             header?: never;
@@ -1045,7 +1045,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/cart": {
+    "/api/v1/cart": {
         parameters: {
             query?: never;
             header?: never;
@@ -1121,7 +1121,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/cart/items": {
+    "/api/v1/cart/items": {
         parameters: {
             query?: never;
             header?: never;
@@ -1186,7 +1186,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/cart/items/{id}": {
+    "/api/v1/cart/items/{id}": {
         parameters: {
             query?: never;
             header?: never;
@@ -1305,7 +1305,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/checkout": {
+    "/api/v1/checkout": {
         parameters: {
             query?: never;
             header?: never;
@@ -1370,7 +1370,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/checkout/session-status": {
+    "/api/v1/checkout/session-status": {
         parameters: {
             query?: never;
             header?: never;
@@ -1420,7 +1420,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/orders/{id}": {
+    "/api/v1/orders/{id}": {
         parameters: {
             query?: never;
             header?: never;
@@ -1481,7 +1481,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/orders": {
+    "/api/v1/orders": {
         parameters: {
             query?: never;
             header?: never;
@@ -1532,7 +1532,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/orders/{id}/cancel": {
+    "/api/v1/orders/{id}/cancel": {
         parameters: {
             query?: never;
             header?: never;
@@ -1593,7 +1593,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/orders/{id}/retry-payment": {
+    "/api/v1/orders/{id}/retry-payment": {
         parameters: {
             query?: never;
             header?: never;
@@ -1665,7 +1665,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/admin/products/{productId}/images": {
+    "/api/v1/admin/products/{productId}/images": {
         parameters: {
             query?: never;
             header?: never;
@@ -1744,7 +1744,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/products/{productId}/images/{imageId}": {
+    "/api/v1/products/{productId}/images/{imageId}": {
         parameters: {
             query?: never;
             header?: never;
@@ -1795,7 +1795,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/admin/products/{productId}/images/{imageId}": {
+    "/api/v1/admin/products/{productId}/images/{imageId}": {
         parameters: {
             query?: never;
             header?: never;
@@ -1864,7 +1864,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/admin/products/{productId}/images/{imageId}/set-primary": {
+    "/api/v1/admin/products/{productId}/images/{imageId}/set-primary": {
         parameters: {
             query?: never;
             header?: never;
@@ -1933,7 +1933,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/products/{id}": {
+    "/api/v1/products/{id}": {
         parameters: {
             query?: never;
             header?: never;
@@ -1983,7 +1983,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/products": {
+    "/api/v1/products": {
         parameters: {
             query?: never;
             header?: never;
@@ -2037,7 +2037,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/admin/products": {
+    "/api/v1/admin/products": {
         parameters: {
             query?: never;
             header?: never;
@@ -2124,7 +2124,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/admin/products/{id}": {
+    "/api/v1/admin/products/{id}": {
         parameters: {
             query?: never;
             header?: never;
@@ -2265,7 +2265,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/products/{productId}/ratings": {
+    "/api/v1/products/{productId}/ratings": {
         parameters: {
             query?: never;
             header?: never;
@@ -2274,7 +2274,11 @@ export interface paths {
         };
         get: {
             parameters: {
-                query?: never;
+                query?: {
+                    page?: number;
+                    pageSize?: number;
+                    sortBy?: string;
+                };
                 header?: never;
                 path: {
                     productId: string;
@@ -2289,9 +2293,9 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "text/plain": components["schemas"]["Commerce.Contracts.Ratings.RatingResponse"][];
-                        "application/json": components["schemas"]["Commerce.Contracts.Ratings.RatingResponse"][];
-                        "text/json": components["schemas"]["Commerce.Contracts.Ratings.RatingResponse"][];
+                        "text/plain": components["schemas"]["Commerce.Contracts.Common.PagedResponse`1[[Commerce.Contracts.Ratings.RatingResponse, Commerce.Contracts, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"];
+                        "application/json": components["schemas"]["Commerce.Contracts.Common.PagedResponse`1[[Commerce.Contracts.Ratings.RatingResponse, Commerce.Contracts, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"];
+                        "text/json": components["schemas"]["Commerce.Contracts.Common.PagedResponse`1[[Commerce.Contracts.Ratings.RatingResponse, Commerce.Contracts, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"];
                     };
                 };
             };
@@ -2355,7 +2359,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/ratings/{id}": {
+    "/api/v1/ratings/{id}": {
         parameters: {
             query?: never;
             header?: never;
@@ -2474,7 +2478,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/webhooks/stripe": {
+    "/api/v1/webhooks/stripe": {
         parameters: {
             query?: never;
             header?: never;
@@ -2649,6 +2653,10 @@ export interface components {
         };
         "Commerce.Contracts.Common.PagedResponse`1[[Commerce.Contracts.Products.ProductsResponse, Commerce.Contracts, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]": {
             data?: components["schemas"]["Commerce.Contracts.Products.ProductsResponse"][];
+            pagination?: components["schemas"]["Commerce.Contracts.Common.PaginationMeta"];
+        };
+        "Commerce.Contracts.Common.PagedResponse`1[[Commerce.Contracts.Ratings.RatingResponse, Commerce.Contracts, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]": {
+            data?: components["schemas"]["Commerce.Contracts.Ratings.RatingResponse"][];
             pagination?: components["schemas"]["Commerce.Contracts.Common.PaginationMeta"];
         };
         "Commerce.Contracts.Common.PaginationMeta": {

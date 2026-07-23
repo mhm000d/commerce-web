@@ -1,8 +1,16 @@
 const API_BASE = process.env.API_BASE_URL;
+const API_VERSION = process.env.API_VERSION;
+
+if (!API_BASE) {
+  throw new Error("API_BASE_URL environment variable is not defined.");
+}
+if (!API_VERSION) {
+  throw new Error("API_VERSION environment variable is not defined.");
+}
 
 async function proxy(req: Request, path: string[]) {
   const url = new URL(req.url);
-  const backendUrl = `${API_BASE}/api/${path.join("/")}${url.search}`;
+  const backendUrl = `${API_BASE}/api/${API_VERSION}/${path.join("/")}${url.search}`;
 
   // Build headers – forward most headers
   const headers = new Headers(req.headers);

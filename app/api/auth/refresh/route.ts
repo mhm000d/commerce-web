@@ -1,8 +1,10 @@
 import { cookies } from "next/headers";
 
 const API_BASE = process.env.API_BASE_URL;
+const API_VERSION = process.env.API_VERSION;
 
 export async function POST() {
+  if (!API_VERSION) throw new Error("API_VERSION environment variable is not defined.");
   const cookieStore = await cookies();
   const refreshToken = cookieStore.get("refresh_token")?.value;
 
@@ -10,7 +12,7 @@ export async function POST() {
     return Response.json({ message: "No refresh token" }, { status: 401 });
   }
 
-  const res = await fetch(`${API_BASE}/api/auth/refresh`, {
+  const res = await fetch(`${API_BASE}/api/${API_VERSION}/auth/refresh`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ refreshToken }),

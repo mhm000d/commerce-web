@@ -1,11 +1,13 @@
 import { cookies } from "next/headers";
 
 const API_BASE = process.env.API_BASE_URL;
+const API_VERSION = process.env.API_VERSION;
 
 export async function POST(req: Request) {
+  if (!API_VERSION) throw new Error("API_VERSION environment variable is not defined.");
   const body = await req.text();
 
-  const res = await fetch(`${API_BASE}/api/auth/register`, {
+  const res = await fetch(`${API_BASE}/api/${API_VERSION}/auth/register`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body,
