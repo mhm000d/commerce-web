@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { clientFetch } from "@/lib/client-fetch";
 import { toast } from "sonner";
-import type { Cart } from "@/lib/api/types";
+import type { Cart, CartItem } from "@/lib/api/types";
 
 interface CartState {
   cart: Cart | null;
@@ -22,7 +22,7 @@ async function fetchCartData(): Promise<Cart | null> {
   return null;
 }
 
-export const useCartStore = create<CartState>((set) => ({
+export const useCartStore = create<CartState>((set, get) => ({
   cart: null,
   isLoading: false,
 
@@ -37,6 +37,7 @@ export const useCartStore = create<CartState>((set) => ({
   },
 
   addItem: async (productId, quantity) => {
+    const previousCart = get().cart;
     try {
       const res = await clientFetch("/api/cart/items", {
         method: "POST",
@@ -50,16 +51,29 @@ export const useCartStore = create<CartState>((set) => ({
           const cart = await res.json();
           set({ cart });
         }
+
+        toast.success("Added to cart.");
       } else {
         const error = await res.json();
         toast.error(error?.message || "Failed to add item.");
       }
     } catch {
+      set({ cart: previousCart });
       toast.error("Something went wrong. Please try again.");
     }
   },
 
   updateItem: async (itemId, quantity) => {
+    const previousCart = get().cart;
+    
+    // Optimistic update
+    if (previousCart) {
+      const updatedItems = previousCart.items?.map((item: CartItem) => 
+        item.id === itemId ? { ...item, quantity } : item
+      );
+      set({ cart: { ...previousCart, items: updatedItems } });
+    }
+
     try {
       const res = await clientFetch(`/api/cart/items/${itemId}`, {
         method: "PUT",
@@ -76,14 +90,24 @@ export const useCartStore = create<CartState>((set) => ({
         toast.success("Cart updated.");
       } else {
         const error = await res.json();
+        set({ cart: previousCart });
         toast.error(error?.message || "Failed to update cart.");
       }
     } catch {
+      set({ cart: previousCart });
       toast.error("Something went wrong. Please try again.");
     }
   },
 
   removeItem: async (itemId) => {
+    const previousCart = get().cart;
+
+    // Optimistic update
+    if (previousCart) {
+      const updatedItems = previousCart.items?.filter((item: CartItem) => item.id !== itemId);
+      set({ cart: { ...previousCart, items: updatedItems } });
+    }
+
     try {
       const res = await clientFetch(`/api/cart/items/${itemId}`, {
         method: "DELETE",
@@ -94,9 +118,11 @@ export const useCartStore = create<CartState>((set) => ({
         toast.success("Item removed from cart.");
       } else {
         const error = await res.json();
+        set({ cart: previousCart });
         toast.error(error?.message || "Failed to remove item.");
       }
     } catch {
+      set({ cart: previousCart });
       toast.error("Something went wrong. Please try again.");
     }
   },

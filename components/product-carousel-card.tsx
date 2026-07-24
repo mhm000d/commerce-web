@@ -16,6 +16,7 @@ import { getBlurDataURL } from "@/lib/placeholder";
 
 interface ProductCarouselCardProps {
   id: string;
+  slug?: string;
   name: string;
   price: number;
   averageRating?: number | null;
@@ -24,6 +25,7 @@ interface ProductCarouselCardProps {
 
 export function ProductCarouselCard({
                                       id,
+                                      slug,
                                       name,
                                       price,
                                       averageRating,
@@ -47,7 +49,7 @@ export function ProductCarouselCard({
     e.stopPropagation();
 
     if (status !== "authenticated") {
-      router.push(`/login?redirect=/products/${id}`);
+      router.push(`/login?redirect=/products/${slug || id}`);
       return;
     }
 
@@ -67,7 +69,7 @@ export function ProductCarouselCard({
 
   return (
     <Link
-      href={`/products/${id}`}
+      href={`/products/${slug || id}`}
       className="block h-full relative group/card"
       onMouseEnter={() => {
         if (secondaryImage) setCurrentImage(secondaryImage);

@@ -65,7 +65,7 @@ export function useRecentlyViewed(currentProductId?: string) {
     try {
       const limitedIds = ids.slice(0, 6);
       const productPromises = limitedIds.map((id) =>
-        clientFetch(`/api/products/${id}`).then(async (res) => {
+        clientFetch(`/api/products/${encodeURIComponent(id)}`).then(async (res) => {
           if (!res.ok) return null;
           try {
             const data = await res.json();

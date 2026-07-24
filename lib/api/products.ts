@@ -24,9 +24,9 @@ export function listProducts(params: ListProductsParams = {}) {
   );
 }
 
-export function getProduct(id: string) {
+export function getProduct(identifier: string) {
   return serverFetch<Product>(
-    `/api/products/${id}`,
+    `/api/products/${encodeURIComponent(identifier)}`,
     { next: { revalidate: 60 } }
   );
 }

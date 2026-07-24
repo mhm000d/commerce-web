@@ -12,12 +12,14 @@ A modern, responsive e‑commerce frontend built with Next.js, React, and Tailwi
 ## ✨ Features
 
 - **🔍 Full‑text Search** – Autocomplete with debouncing, keyboard navigation, and image previews.
+- **🔗 SEO-Friendly URLs** – Automatic normalization of product URLs, redirecting from IDs to clean, hyphenated slugs for better search visibility. Includes **JSON-LD Product Schema** for search engine rich results (price, ratings, availability).
 - **🛒 Shopping Cart** – Zustand store with add/update/remove/clear, real‑time sync with the backend.
 - **📦 Checkout** – Address selection, payment method (Stripe / Cash on Delivery), and order review with Stripe Embedded Checkout.
 - **📝 Product Reviews** – Full CRUD with verified‑purchase enforcement, ownership checks, deletion dialog, and pagination.
 - **📋 Address Management** – Create, edit, delete addresses with a max of 5, unique default, and zero‑default protection.
 - **👤 User Account** – Profile editing, password change, and order history.
 - **🛠️ Admin Panel** – Product CRUD with image upload (during creation), order management with status updates.
+- **📤 Share Integration** – Web Share API integration with clipboard fallback for easy product sharing.
 - **🎨 UI Consistency** – Indigo brand colours, toast notifications, breadcrumbs, rating stars, loading skeletons, and premium product cards with aligned pricing/ratings and reserved title heights to prevent layout overlaps.
 - **📱 Mobile‑First** – Responsive design with bottom navigation, search‑first header, and a full-featured mobile menu drawer displaying icons for categories and account options.
 - **🔌 Transparent API Versioning & Proxy** – Transparent version prefixing (e.g., `/v1`) in the Next.js API BFF proxy and server-side fetch wrappers controlled dynamically via environment configurations.

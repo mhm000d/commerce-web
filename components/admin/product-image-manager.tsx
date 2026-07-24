@@ -41,7 +41,7 @@ export function ProductImageManager({
     formData.append("image", file);
 
     try {
-      const res = await clientFetch(`/api/admin/products/${productId}/images`, {
+      const res = await clientFetch(`/api/admin/products/${encodeURIComponent(productId)}/images`, {
         method: "POST",
         body: formData,
       });
@@ -63,7 +63,7 @@ export function ProductImageManager({
     if (!confirm("Are you sure you want to delete this image?")) return;
     try {
       const res = await clientFetch(
-        `/api/admin/products/${productId}/images/${imageId}`,
+        `/api/admin/products/${encodeURIComponent(productId)}/images/${imageId}`,
         {method: "DELETE"}
       );
       if (!res.ok) {
@@ -80,7 +80,7 @@ export function ProductImageManager({
   const handleSetPrimary = async (imageId: string) => {
     try {
       const res = await clientFetch(
-        `/api/admin/products/${productId}/images/${imageId}/set-primary`,
+        `/api/admin/products/${encodeURIComponent(productId)}/images/${imageId}/set-primary`,
         {method: "PUT"}
       );
       if (!res.ok) {

@@ -30,7 +30,7 @@ export function ProductCard({ product }: { product: ProductSummary }) {
     e.stopPropagation();
 
     if (status !== "authenticated") {
-      router.push(`/login?redirect=/products/${product.id}`);
+      router.push(`/login?redirect=/products/${product.slug || product.id}`);
       return;
     }
 
@@ -50,7 +50,7 @@ export function ProductCard({ product }: { product: ProductSummary }) {
 
   return (
     <Link
-      href={`/products/${product.id}`}
+      href={`/products/${product.slug || product.id}`}
       className="group flex flex-col bg-white rounded-lg border border-slate-200 overflow-hidden hover:border-indigo-400 hover:shadow-md transition-all duration-200 relative h-full"
       onMouseEnter={() => {
         if (secondaryImage) setCurrentImage(secondaryImage);

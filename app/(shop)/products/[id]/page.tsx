@@ -1,8 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { notFound, useParams } from "next/navigation";
-import Link from "next/link";
+import { notFound, useParams, useRouter } from "next/navigation";
 import { Star } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { ProductImageGallery } from "@/components/product-image-gallery";
@@ -13,12 +12,15 @@ import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 import { ProductCarousel } from "@/components/product-carousel";
 import { RecentlyViewed } from "@/components/recently-viewed";
 import { ProductReviews } from "@/components/product-reviews";
+import { ShareButton } from "@/components/share-button";
+import { JsonLd } from "@/components/json-ld";
 import { getProduct, listProducts } from "@/lib/api/products";
 import type { Product, ProductSummary } from "@/lib/api/types";
 
 export default function ProductDetailPage() {
   const params = useParams();
-  const id = params.id as string;
+  const router = useRouter();
+  const identifier = params.id as string;
 
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
@@ -29,11 +31,18 @@ export default function ProductDetailPage() {
     setRefreshKey((prev) => prev + 1);
   };
 
+  // ── Handle URL normalization (ID to Slug) ──
+  useEffect(() => {
+    if (product?.slug && identifier === product.id) {
+      router.replace(`/products/${product.slug}`);
+    }
+  }, [product, identifier, router]);
+
   // ── Fetch product ──
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const data = await getProduct(id);
+        const data = await getProduct(identifier);
         setProduct(data);
         setLoading(false);
 
@@ -55,7 +64,7 @@ export default function ProductDetailPage() {
     };
 
     fetchProduct();
-  }, [id, refreshKey]);
+  }, [identifier, refreshKey]);
 
   if (loading) {
     return (
@@ -93,9 +102,11 @@ export default function ProductDetailPage() {
         : { label: "In stock", className: "bg-emerald-100 text-emerald-700 border-emerald-200" };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <>
+      <JsonLd product={product} />
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-0 pt-2 sm:py-2 lg:py-6">
       {/* Breadcrumb */}
-      <div className="mb-8">
+      <div className="mb-1 sm:mb-4 lg:mb-3">
         <BreadcrumbNav
           items={[
             { label: "Products", href: "/products" },
@@ -109,23 +120,34 @@ export default function ProductDetailPage() {
       </div>
 
       {/* Main Product Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
+      <div className="flex flex-col lg:grid lg:grid-cols-2 gap-4 pt-1 sm:gap-8 lg:gap-20">
+        {/* Info for small screens: Above the image */}
+        <div className="flex lg:hidden flex-col gap-1">
+          <div className="flex justify-between items-start gap-4">
+            <h1
+              className="text-lg font-bold text-slate-900 leading-tight transition-all cursor-default flex-1"
+              title={product.name}
+            >
+              {product.name}
+            </h1>
+            <ShareButton title={product.name ?? ""} className="mt-1 flex-shrink-0" />
+          </div>
+        </div>
+
         <ProductImageGallery images={sortedImages} name={product.name ?? ""} />
 
         <div className="flex flex-col gap-6">
-          <Link
-            href={`/products?category=${encodeURIComponent(product.category ?? "")}`}
-            className="text-xs font-semibold uppercase tracking-wider text-indigo-600 hover:text-indigo-800 hover:underline transition-colors inline-block"
-          >
-            {product.category}
-          </Link>
-
-          <h1
-            className="text-3xl lg:text-4xl font-bold text-slate-900 leading-tight line-clamp-2 hover:line-clamp-none transition-all cursor-default"
-            title={product.name}
-          >
-            {product.name}
-          </h1>
+          <div className="hidden lg:flex flex-col gap-2">
+            <div className="flex justify-between items-start gap-4">
+              <h1
+                className="text-4xl font-bold text-slate-900 leading-tight transition-all cursor-default flex-1"
+                title={product.name}
+              >
+                {product.name}
+              </h1>
+              <ShareButton title={product.name ?? ""} className="mt-1 flex-shrink-0" />
+            </div>
+          </div>
 
           {product.averageRating && product.ratingCount && product.ratingCount > 0 ? (
             <div className="flex items-center gap-2">
@@ -192,5 +214,6 @@ export default function ProductDetailPage() {
       {/* Product Reviews */}
       <ProductReviews productId={product.id!} onReviewChange={handleReviewChange} />
     </div>
+    </>
   );
 }

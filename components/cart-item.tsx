@@ -29,7 +29,7 @@ export function CartItem({ item, onUpdateQuantity, onRemove }: CartItemProps) {
 
   return (
     <div className="flex items-stretch gap-4 border border-slate-200 rounded-lg p-4 bg-white hover:shadow-md transition-shadow">
-      <Link href={`/products/${item.productId}`} className="shrink-0 flex items-center">
+      <Link href={`/products/${item.productSlug || item.productId}`} className="shrink-0 flex items-center">
         <div className="relative w-16 h-16 bg-slate-100 rounded-lg overflow-hidden">
           {item.primaryImageUrl ? (
             <Image
@@ -49,7 +49,7 @@ export function CartItem({ item, onUpdateQuantity, onRemove }: CartItemProps) {
 
       {/* Middle: name (top) + quantity (bottom) */}
       <div className="flex-1 min-w-0 flex flex-col justify-between py-1 min-h-[72px]">
-        <Link href={`/products/${item.productId}`}>
+        <Link href={`/products/${item.productSlug || item.productId}`}>
           <h3 className="text-sm font-medium text-slate-900 hover:text-indigo-600 transition-colors line-clamp-2">
             {item.productName}
           </h3>

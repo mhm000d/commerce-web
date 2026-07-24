@@ -1933,7 +1933,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/v1/products/{id}": {
+    "/api/v1/products/{identifier}": {
         parameters: {
             query?: never;
             header?: never;
@@ -1945,7 +1945,7 @@ export interface paths {
                 query?: never;
                 header?: never;
                 path: {
-                    id: string;
+                    identifier: string;
                 };
                 cookie?: never;
             };
@@ -2622,6 +2622,7 @@ export interface components {
             id?: string;
             /** Format: uuid */
             productId?: string;
+            productSlug?: string | null;
             productName?: string;
             primaryImageUrl?: string | null;
             /** Format: int32 */
@@ -2701,6 +2702,7 @@ export interface components {
             id?: string;
             /** Format: uuid */
             productId?: string;
+            productSlug?: string | null;
             productName?: string;
             primaryImageUrl?: string | null;
             /** Format: int32 */
@@ -2756,10 +2758,12 @@ export interface components {
             stockQuantity?: number;
             category?: string;
             specifications?: components["schemas"]["Commerce.Contracts.Products.ProductSpecification"][];
+            slug?: string | null;
         };
         "Commerce.Contracts.Products.ProductResponse": {
             /** Format: uuid */
             id?: string;
+            slug?: string;
             name?: string;
             description?: string;
             /** Format: double */
@@ -2781,6 +2785,7 @@ export interface components {
         "Commerce.Contracts.Products.ProductsResponse": {
             /** Format: uuid */
             id?: string;
+            slug?: string;
             name?: string;
             /** Format: double */
             price?: number;

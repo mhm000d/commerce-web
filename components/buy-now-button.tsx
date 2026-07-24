@@ -22,7 +22,7 @@ export function BuyNowButton({ product, quantity = 1, disabled }: BuyNowButtonPr
 
   const handleBuyNow = async () => {
     if (status !== "authenticated") {
-      router.push(`/login?redirect=/products/${product.id}`);
+      router.push(`/login?redirect=/products/${product.slug || product.id}`);
       return;
     }
 

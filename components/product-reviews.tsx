@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, useCallback } from 'react';
+import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/store/auth';
 import { getProductReviews, deleteReview } from '@/lib/api/reviews';
 import { ReviewItem } from './review-item';
@@ -25,6 +26,7 @@ interface ProductReviewsProps {
 const PAGE_SIZE = 5;
 
 export function ProductReviews({ productId, onReviewChange }: ProductReviewsProps) {
+  const router = useRouter();
   const { status, user } = useAuthStore();
   const [reviews, setReviews] = useState<Review[]>([]);
   const [loading, setLoading] = useState(true);
@@ -82,12 +84,17 @@ export function ProductReviews({ productId, onReviewChange }: ProductReviewsProp
   };
 
   const handleDelete = async (reviewId: string) => {
+    const previousReviews = [...reviews];
+    setReviews((prev) => prev.filter((r) => r.id !== reviewId));
+    
     try {
       await deleteReview(reviewId);
       toast.success('Review deleted.');
       await fetchReviews(1, false);
       onReviewChange?.();
+      router.refresh();
     } catch (err) {
+      setReviews(previousReviews);
       toast.error(getErrorMessage(err));
     }
   };
@@ -135,6 +142,7 @@ export function ProductReviews({ productId, onReviewChange }: ProductReviewsProp
             setShowForm(false);
             fetchReviews(1, false);
             onReviewChange?.();
+            router.refresh();
           }}
           onCancel={() => setShowForm(false)}
         />
@@ -159,6 +167,7 @@ export function ProductReviews({ productId, onReviewChange }: ProductReviewsProp
               onEdit={() => {
                 fetchReviews(1, false);
                 onReviewChange?.();
+                router.refresh();
               }}
               onDelete={() => handleDelete(review.id!)}
             />

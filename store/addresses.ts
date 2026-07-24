@@ -60,6 +60,22 @@ export const useAddressStore = create<AddressState>((set, get) => ({
   },
 
   updateAddress: async (id, data) => {
+    const previousAddresses = get().addresses;
+    const previousDefault = get().defaultAddress;
+    const previousSelected = get().selectedAddressId;
+
+    // Optimistic update
+    if (data.isDefault) {
+      set({
+        addresses: previousAddresses.map(a => ({
+          ...a,
+          isDefault: a.id === id
+        })),
+        defaultAddress: previousAddresses.find(a => a.id === id) || previousDefault,
+        selectedAddressId: id
+      });
+    }
+
     const payload = {
       fullName: data.fullName,
       phoneNumber: data.phoneNumber,
@@ -79,6 +95,11 @@ export const useAddressStore = create<AddressState>((set, get) => ({
     });
     if (!res.ok) {
       const error = await res.json();
+      set({
+        addresses: previousAddresses,
+        defaultAddress: previousDefault,
+        selectedAddressId: previousSelected
+      });
       throw new Error(error?.message || "Failed to update address");
     }
     // Re-fetch to sync default state
@@ -87,11 +108,27 @@ export const useAddressStore = create<AddressState>((set, get) => ({
   },
 
   deleteAddress: async (id) => {
+    const previousAddresses = get().addresses;
+    const previousDefault = get().defaultAddress;
+    const previousSelected = get().selectedAddressId;
+
+    // Optimistic update
+    set({
+      addresses: previousAddresses.filter(a => a.id !== id),
+      defaultAddress: previousDefault?.id === id ? null : previousDefault,
+      selectedAddressId: previousSelected === id ? null : previousSelected
+    });
+
     const res = await clientFetch(`/api/addresses/${id}`, {
       method: "DELETE",
     });
     if (!res.ok) {
       const error = await res.json();
+      set({
+        addresses: previousAddresses,
+        defaultAddress: previousDefault,
+        selectedAddressId: previousSelected
+      });
       throw new Error(error?.message || "Failed to delete address");
     }
     await get().fetchAddresses();

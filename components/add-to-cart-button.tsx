@@ -23,7 +23,7 @@ export function AddToCartButton({ product, disabled }: Props) {
 
   const handleAddToCart = async () => {
     if (status !== "authenticated") {
-      router.push(`/login?redirect=/products/${product.id}`);
+      router.push(`/login?redirect=/products/${product.slug || product.id}`);
       return;
     }
     await addItem(product.id!, quantity);

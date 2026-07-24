@@ -172,7 +172,7 @@ export function SearchAutocomplete() {
         e.preventDefault();
         if (selectedIndex >= 0 && selectedIndex < results.length) {
           // Go to product detail
-          router.push(`/products/${results[selectedIndex].id}`);
+          router.push(`/products/${results[selectedIndex].slug || results[selectedIndex].id}`);
           setIsOpen(false);
           setQuery("");
           inputRef.current?.blur();
@@ -258,7 +258,7 @@ export function SearchAutocomplete() {
                 {results.map((product, index) => (
                   <li key={product.id}>
                     <Link
-                      href={`/products/${product.id}`}
+                      href={`/products/${product.slug || product.id}`}
                       className={`flex items-center gap-3 p-3 hover:bg-indigo-50 transition-colors ${
                         index === selectedIndex ? "bg-indigo-50" : ""
                       }`}

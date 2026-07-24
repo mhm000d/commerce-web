@@ -21,7 +21,7 @@ export default function EditProductPage() {
 
     const fetchProduct = async () => {
       try {
-        const res = await clientFetch(`/api/products/${id}`);
+        const res = await clientFetch(`/api/products/${encodeURIComponent(id)}`);
         if (!isMounted) return;
         if (!res.ok) throw new Error("Product not found");
         const data = await res.json();

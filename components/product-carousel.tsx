@@ -82,8 +82,9 @@ export function ProductCarousel({products, title}: ProductCarouselProps) {
                   className="pl-4 basis-40 sm:basis-48 md:basis-52 lg:basis-56"
                 >
                   <ProductCarouselCard
-                    id={product.id}
-                    name={product.name}
+                    id={product.id!}
+                    slug={product.slug}
+                    name={product.name!}
                     price={product.price || 0}
                     averageRating={product.averageRating}
                     images={product.images || []}

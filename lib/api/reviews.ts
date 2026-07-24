@@ -10,13 +10,13 @@ export async function getProductReviews(
   if (params.pageSize) qs.set('pageSize', String(params.pageSize));
   if (params.sortBy) qs.set('sortBy', params.sortBy);
 
-  const res = await clientFetch(`/api/products/${productId}/ratings?${qs}`);
+  const res = await clientFetch(`/api/products/${encodeURIComponent(productId)}/ratings?${qs}`);
   if (!res.ok) throw new Error('Failed to load reviews');
   return res.json();
 }
 
 export async function createReview(productId: string, data: { score: number; comment?: string }) {
-  const res = await clientFetch(`/api/products/${productId}/ratings`, {
+  const res = await clientFetch(`/api/products/${encodeURIComponent(productId)}/ratings`, {
     method: 'POST',
     body: JSON.stringify(data),
   });

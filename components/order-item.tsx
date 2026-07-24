@@ -7,6 +7,7 @@ interface OrderItemProps {
   item: {
     id?: string;
     productId?: string;
+    productSlug?: string | null;
     productName?: string;
     primaryImageUrl?: string | null;
     quantity?: number;
@@ -19,7 +20,7 @@ export function OrderItem({ item }: OrderItemProps) {
 
   return (
     <div className="flex items-center gap-4 py-4 border-b border-slate-100 last:border-0">
-      <Link href={`/products/${item.productId}`} className="shrink-0">
+      <Link href={`/products/${item.productSlug || item.productId}`} className="shrink-0">
         <div className="relative w-16 h-16 bg-slate-100 rounded-lg overflow-hidden">
           {item.primaryImageUrl ? (
             <Image
@@ -37,7 +38,7 @@ export function OrderItem({ item }: OrderItemProps) {
         </div>
       </Link>
       <div className="flex-1 min-w-0">
-        <Link href={`/products/${item.productId}`}>
+        <Link href={`/products/${item.productSlug || item.productId}`}>
           <h4 className="text-sm font-medium text-slate-900 hover:text-indigo-600 transition-colors line-clamp-2">
             {item.productName}
           </h4>

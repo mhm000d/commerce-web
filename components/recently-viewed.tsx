@@ -53,12 +53,14 @@ function CarouselArrows() {
 
 export function ProductRectangularCard({
                                          id,
+                                         slug,
                                          name,
                                          price,
                                          averageRating,
                                          images = [],
                                        }: {
   id: string;
+  slug?: string;
   name: string;
   price: number;
   averageRating?: number | null;
@@ -68,7 +70,7 @@ export function ProductRectangularCard({
   const imageUrl = primaryImage?.imageUrl ?? null;
 
   return (
-    <Link href={`/products/${id}`} className="block h-full w-full">
+    <Link href={`/products/${slug || id}`} className="block h-full w-full">
       <div className="flex bg-white rounded-xl border border-slate-200/60 overflow-hidden hover:border-indigo-400 hover:shadow-md transition-all duration-200 p-3 gap-4 h-28 w-full">
         <div className="relative w-20 h-full bg-slate-50 rounded-lg overflow-hidden shrink-0">
           {imageUrl ? (
@@ -154,6 +156,7 @@ export function RecentlyViewed({ productId }: RecentlyViewedProps) {
                 >
                   <ProductRectangularCard
                     id={product.id || ""}
+                    slug={product.slug}
                     name={product.name || "Unnamed Product"}
                     price={product.price || 0}
                     averageRating={product.averageRating}
