@@ -72,7 +72,7 @@ export default function ShopLayout({ children }: { children: React.ReactNode }) 
         </div>
       </header>
 
-      <main className="flex-1 pt-32 md:pt-32 lg:pt-36">
+      <main className="flex-1 pt-27 md:pt-32 lg:pt-36">
         {children}
       </main>
 

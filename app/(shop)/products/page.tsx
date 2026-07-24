@@ -172,10 +172,10 @@ export default function ProductsPage() {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-2 pb-8">
       <BreadcrumbNav items={breadcrumbItems}/>
 
-      <div className="flex items-center justify-between mt-6 mb-8">
+      <div className="mt-2 sm:mt-3 lg:mt-4 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between mb-8">
         <div>
           <h1 className="text-2xl font-bold text-slate-900">Products</h1>
           <p className="text-sm text-slate-500 mt-1">

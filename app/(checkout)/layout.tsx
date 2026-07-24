@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Lock, ArrowLeft } from "lucide-react";
+import { Lock } from "lucide-react";
 
 export default function CheckoutLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -12,15 +12,7 @@ export default function CheckoutLayout({ children }: { children: React.ReactNode
           >
             Commerce
           </Link>
-          <div className="flex items-center gap-3">
-            <Link
-              href="/cart"
-              className="text-sm text-white/80 hover:text-white transition-colors flex items-center gap-1"
-            >
-              <ArrowLeft size={14} />
-              <span className="hidden sm:inline">Back to cart</span>
-              <span className="sm:hidden">Cart</span>
-            </Link>
+          <div className="flex items-center gap-2">
             <span className="flex items-center gap-1.5 text-xs text-white/70 border-l border-white/20 pl-3">
               <Lock size={14} className="text-white/70" />
               Secure checkout

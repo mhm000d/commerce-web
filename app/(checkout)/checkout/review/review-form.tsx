@@ -210,7 +210,7 @@ export default function CheckoutReviewPage() {
 
   // ── COD mode: full layout with sidebar ──
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
       {/* ─── Subtle Back Button (above steps) ─── */}
       <div className="flex items-center justify-start mb-4">
         <button
